@@ -54,6 +54,7 @@ const PharmaMarketingSolution = () => {
       const data = await response.json();
 
       if (response.ok) {
+        setApiKey('');
         setIsApiKeySet(true);
         setShowApiSettings(false);
         alert('API Keyが設定されました！');
@@ -837,7 +838,7 @@ const PharmaMarketingSolution = () => {
               justifyContent: 'flex-end'
             }}>
               <button
-                onClick={() => setShowApiSettings(false)}
+                onClick={() => { setApiKey(''); setShowApiSettings(false); }}
                 style={{
                   background: '#e0e0e0',
                   color: '#212121',
