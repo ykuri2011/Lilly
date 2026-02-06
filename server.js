@@ -10,8 +10,14 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Gemini API クライアントの初期化（動的に行う）
+// Gemini API クライアントの初期化
 let genAI = null;
+
+// .envにAPIキーが設定されている場合は起動時に初期化
+if (process.env.GEMINI_API_KEY) {
+  genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  console.log('Gemini API initialized from .env');
+}
 
 // API Key設定エンドポイント
 app.post('/api/set-api-key', (req, res) => {
@@ -38,7 +44,7 @@ app.post('/api/generate-persona-response', async (req, res) => {
   const { disease, userMessage, conversationHistory } = req.body;
   
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
     
     // プロンプト構築
     const systemPrompt = `あなたは${disease}の患者です。以下の設定で患者として振る舞ってください：
@@ -86,7 +92,7 @@ app.post('/api/generate-journey', async (req, res) => {
   const { disease, dashboardData, savedInsights } = req.body;
   
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
     
     const systemPrompt = `あなたは医療用医薬品のマーケティング戦略を立案する専門家です。
 
@@ -169,7 +175,7 @@ app.post('/api/legal-check', async (req, res) => {
   const { disease, action, stage } = req.body;
   
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
     
     const systemPrompt = `あなたは医薬品の薬事法・広告規制に詳しい専門家です。
 

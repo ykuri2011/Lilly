@@ -13,7 +13,6 @@
 ### 1. 依存パッケージのインストール
 
 ```bash
-cd backend
 npm install
 ```
 

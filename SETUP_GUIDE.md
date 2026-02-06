@@ -13,9 +13,6 @@
 ### 1. バックエンドのセットアップ
 
 ```bash
-# バックエンドディレクトリに移動
-cd backend
-
 # 依存パッケージのインストール
 npm install
 
@@ -88,10 +85,10 @@ npm run dev
 2. ヘッダーの「API設定」ボタンをクリック
 3. API Keyを入力して「設定する」をクリック
 
-#### 方法2: バックエンドの.envファイルに設定
+#### 方法2: .envファイルに設定
 
 ```bash
-# backend/.env
+# .env
 GEMINI_API_KEY=your_api_key_here
 PORT=3001
 ```
@@ -100,14 +97,14 @@ PORT=3001
 
 ```
 pharma-marketing-solution/
-├── backend/                    # バックエンドサーバー
-│   ├── server.js              # メインサーバーファイル
-│   ├── package.json           # 依存パッケージ
-│   ├── .env.example           # 環境変数のサンプル
-│   ├── .env                   # 環境変数（作成が必要）
-│   └── README.md              # バックエンドのドキュメント
-│
-└── pharma-marketing-solution.jsx  # フロントエンドReactコンポーネント
+├── server.js                      # バックエンドサーバー (Express)
+├── pharma-marketing-solution.jsx  # フロントエンドReactコンポーネント
+├── package.json                   # 依存パッケージ
+├── .env.example                   # 環境変数のサンプル
+├── .env                           # 環境変数（作成が必要）
+├── .gitignore                     # Git除外設定
+├── README.md                      # APIドキュメント
+└── SETUP_GUIDE.md                 # セットアップガイド（本ファイル）
 ```
 
 ## 🔧 トラブルシューティング
@@ -119,7 +116,6 @@ pharma-marketing-solution/
 **解決方法:**
 1. バックエンドサーバーが起動しているか確認
 ```bash
-cd backend
 npm run dev
 ```
 
@@ -133,7 +129,7 @@ npm run dev
 
 **解決方法:**
 1. フロントエンドの「API設定」から再度API Keyを入力
-2. または、`backend/.env`ファイルに`GEMINI_API_KEY`を設定
+2. または、`.env`ファイルに`GEMINI_API_KEY`を設定
 
 ### JSON解析エラー
 
@@ -152,7 +148,7 @@ npm run dev
 
 **解決方法:**
 ```bash
-# backend/.env でポート番号を変更
+# .env でポート番号を変更
 PORT=3002
 
 # フロントエンドのAPI_BASE_URLも変更
@@ -210,4 +206,4 @@ ISC
 問題が発生した場合：
 1. バックエンドのコンソールログを確認
 2. ブラウザの開発者ツールのコンソールを確認
-3. `backend/README.md` のAPIドキュメントを参照
+3. `README.md` のAPIドキュメントを参照

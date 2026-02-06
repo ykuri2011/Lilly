@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { MessageCircle, Database, Map, Shield, Save, Download, Edit3, Plus, Check, AlertCircle, ChevronRight, ArrowRight } from 'lucide-react';
+import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { MessageCircle, Database, Map, Shield, Save, Download, Edit3, Plus, Check, AlertCircle } from 'lucide-react';
 
 const PharmaMarketingSolution = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -54,6 +54,7 @@ const PharmaMarketingSolution = () => {
       const data = await response.json();
 
       if (response.ok) {
+        setApiKey('');
         setIsApiKeySet(true);
         setShowApiSettings(false);
         alert('API Keyが設定されました！');
@@ -442,13 +443,6 @@ const PharmaMarketingSolution = () => {
 
   // 現在選択されている疾患のデータを取得
   const currentData = diseaseData[selectedDisease];
-
-  // ダッシュボードデータ
-  const marketData = {
-    tam: 4500000,
-    sam: 1800000,
-    som: 450000
-  };
 
   const competitorShare = currentData.competitorShare;
   const regionalSales = currentData.regionalSales;
@@ -844,7 +838,7 @@ const PharmaMarketingSolution = () => {
               justifyContent: 'flex-end'
             }}>
               <button
-                onClick={() => setShowApiSettings(false)}
+                onClick={() => { setApiKey(''); setShowApiSettings(false); }}
                 style={{
                   background: '#e0e0e0',
                   color: '#212121',
@@ -1684,7 +1678,7 @@ const PharmaMarketingSolution = () => {
                     type="text"
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                     placeholder="患者に質問してください..."
                     style={{
                       flex: 1,
