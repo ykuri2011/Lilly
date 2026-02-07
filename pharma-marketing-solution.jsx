@@ -78,10 +78,10 @@ const PharmaMarketingSolution = () => {
         retention: { value: '78%', change: '+2.1%' }
       },
       competitorShare: [
-        { name: '自社製品', value: 25, color: '#d52b1e' },
-        { name: '競合A', value: 35, color: '#757575' },
-        { name: '競合B', value: 22, color: '#bdbdbd' },
-        { name: '競合C', value: 18, color: '#e0e0e0' }
+        { name: '自社製品', value: 25, color: '#D52B1E' },
+        { name: '競合A', value: 35, color: '#94A3B8' },
+        { name: '競合B', value: 22, color: '#CBD5E1' },
+        { name: '競合C', value: 18, color: '#E2E8F0' }
       ],
       regionalSales: [
         { region: '北海道', sales: 120, growth: 5.2 },
@@ -131,10 +131,10 @@ const PharmaMarketingSolution = () => {
         retention: { value: '65%', change: '+5.3%' }
       },
       competitorShare: [
-        { name: '自社製品', value: 18, color: '#d52b1e' },
-        { name: '競合A', value: 42, color: '#757575' },
-        { name: '競合B', value: 25, color: '#bdbdbd' },
-        { name: '競合C', value: 15, color: '#e0e0e0' }
+        { name: '自社製品', value: 18, color: '#D52B1E' },
+        { name: '競合A', value: 42, color: '#94A3B8' },
+        { name: '競合B', value: 25, color: '#CBD5E1' },
+        { name: '競合C', value: 15, color: '#E2E8F0' }
       ],
       regionalSales: [
         { region: '北海道', sales: 85, growth: 8.5 },
@@ -184,10 +184,10 @@ const PharmaMarketingSolution = () => {
         retention: { value: '84%', change: '+1.5%' }
       },
       competitorShare: [
-        { name: '自社製品', value: 31, color: '#d52b1e' },
-        { name: '競合A', value: 28, color: '#757575' },
-        { name: '競合B', value: 24, color: '#bdbdbd' },
-        { name: '競合C', value: 17, color: '#e0e0e0' }
+        { name: '自社製品', value: 31, color: '#D52B1E' },
+        { name: '競合A', value: 28, color: '#94A3B8' },
+        { name: '競合B', value: 24, color: '#CBD5E1' },
+        { name: '競合C', value: 17, color: '#E2E8F0' }
       ],
       regionalSales: [
         { region: '北海道', sales: 52, growth: 3.8 },
@@ -237,10 +237,10 @@ const PharmaMarketingSolution = () => {
         retention: { value: '72%', change: '+3.1%' }
       },
       competitorShare: [
-        { name: '自社製品', value: 22, color: '#d52b1e' },
-        { name: '競合A', value: 38, color: '#757575' },
-        { name: '競合B', value: 26, color: '#bdbdbd' },
-        { name: '競合C', value: 14, color: '#e0e0e0' }
+        { name: '自社製品', value: 22, color: '#D52B1E' },
+        { name: '競合A', value: 38, color: '#94A3B8' },
+        { name: '競合B', value: 26, color: '#CBD5E1' },
+        { name: '競合C', value: 14, color: '#E2E8F0' }
       ],
       regionalSales: [
         { region: '北海道', sales: 28, growth: 5.5 },
@@ -290,10 +290,10 @@ const PharmaMarketingSolution = () => {
         retention: { value: '68%', change: '+2.8%' }
       },
       competitorShare: [
-        { name: '自社製品', value: 20, color: '#d52b1e' },
-        { name: '競合A', value: 32, color: '#757575' },
-        { name: '競合B', value: 28, color: '#bdbdbd' },
-        { name: '競合C', value: 20, color: '#e0e0e0' }
+        { name: '自社製品', value: 20, color: '#D52B1E' },
+        { name: '競合A', value: 32, color: '#94A3B8' },
+        { name: '競合B', value: 28, color: '#CBD5E1' },
+        { name: '競合C', value: 20, color: '#E2E8F0' }
       ],
       regionalSales: [
         { region: '北海道', sales: 142, growth: 4.2 },
@@ -343,10 +343,10 @@ const PharmaMarketingSolution = () => {
         retention: { value: '81%', change: '+1.8%' }
       },
       competitorShare: [
-        { name: '自社製品', value: 15, color: '#d52b1e' },
-        { name: '競合A', value: 45, color: '#757575' },
-        { name: '競合B', value: 28, color: '#bdbdbd' },
-        { name: '競合C', value: 12, color: '#e0e0e0' }
+        { name: '自社製品', value: 15, color: '#D52B1E' },
+        { name: '競合A', value: 45, color: '#94A3B8' },
+        { name: '競合B', value: 28, color: '#CBD5E1' },
+        { name: '競合C', value: 12, color: '#E2E8F0' }
       ],
       regionalSales: [
         { region: '北海道', sales: 95, growth: 7.2 },
@@ -396,10 +396,10 @@ const PharmaMarketingSolution = () => {
         retention: { value: '74%', change: '+4.2%' }
       },
       competitorShare: [
-        { name: '自社製品', value: 28, color: '#d52b1e' },
-        { name: '競合A', value: 31, color: '#757575' },
-        { name: '競合B', value: 23, color: '#bdbdbd' },
-        { name: '競合C', value: 18, color: '#e0e0e0' }
+        { name: '自社製品', value: 28, color: '#D52B1E' },
+        { name: '競合A', value: 31, color: '#94A3B8' },
+        { name: '競合B', value: 23, color: '#CBD5E1' },
+        { name: '競合C', value: 18, color: '#E2E8F0' }
       ],
       regionalSales: [
         { region: '北海道', sales: 185, growth: 8.8 },
@@ -750,8 +750,9 @@ const PharmaMarketingSolution = () => {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%)',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif'
+      background: '#F4F5F7',
+      fontFamily: '"Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif',
+      color: '#2D2D2D'
     }}>
       {/* API設定モーダル */}
       {showApiSettings && (
@@ -761,53 +762,56 @@ const PharmaMarketingSolution = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'rgba(0,0,0,0.6)',
+          background: 'rgba(0,0,0,0.35)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 10000,
-          padding: '20px'
+          padding: '20px',
+          backdropFilter: 'blur(4px)'
         }}>
           <div style={{
-            background: '#fff',
-            borderRadius: '16px',
+            background: '#FFFFFF',
+            borderRadius: '12px',
             padding: '40px',
             maxWidth: '600px',
             width: '100%',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
+            boxShadow: '0 12px 40px rgba(0,0,0,0.12)',
+            border: '1px solid #E5E7EB'
           }}>
             <h2 style={{
               margin: '0 0 24px 0',
-              fontSize: '24px',
-              fontWeight: '700',
-              color: '#212121',
+              fontSize: '22px',
+              fontWeight: '600',
+              color: '#1A1A1A',
               display: 'flex',
               alignItems: 'center',
               gap: '12px'
             }}>
-              <Shield size={28} color='#d52b1e' />
+              <Shield size={24} color='#D52B1E' />
               Gemini API Key 設定
             </h2>
             
             <p style={{
               margin: '0 0 24px 0',
               fontSize: '14px',
-              color: '#757575',
-              lineHeight: '1.6'
+              color: '#6B7280',
+              lineHeight: '1.7'
             }}>
               AI機能（AIペルソナ、Patient Journey生成、Legal Check）を使用するには、Google Gemini API Keyが必要です。
             </p>
 
             <div style={{
-              background: '#f5f5f5',
+              background: '#F8F9FA',
               padding: '16px',
-              borderRadius: '8px',
+              borderRadius: '10px',
               marginBottom: '24px',
               fontSize: '13px',
-              lineHeight: '1.6'
+              lineHeight: '1.7',
+              border: '1px solid #E5E7EB'
             }}>
               <strong>API Keyの取得方法：</strong><br />
-              1. <a href="https://makersuite.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style={{ color: '#d52b1e' }}>Google AI Studio</a> にアクセス<br />
+              1. <a href="https://makersuite.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style={{ color: '#D52B1E' }}>Google AI Studio</a> にアクセス<br />
               2. Googleアカウントでログイン<br />
               3. "Get API Key" をクリックしてAPI Keyを生成<br />
               4. 生成されたキーをコピーして下記に貼り付け
@@ -822,14 +826,15 @@ const PharmaMarketingSolution = () => {
                 width: '100%',
                 padding: '16px',
                 fontSize: '15px',
-                border: '2px solid #e0e0e0',
-                borderRadius: '8px',
+                border: '1px solid #D1D5DB',
+                borderRadius: '10px',
                 marginBottom: '24px',
                 fontFamily: 'monospace',
-                outline: 'none'
+                outline: 'none',
+                transition: 'border-color 0.2s ease'
               }}
-              onFocus={(e) => e.target.style.borderColor = '#d52b1e'}
-              onBlur={(e) => e.target.style.borderColor = '#e0e0e0'}
+              onFocus={(e) => e.target.style.borderColor = '#D52B1E'}
+              onBlur={(e) => e.target.style.borderColor = '#D1D5DB'}
             />
 
             <div style={{
@@ -840,14 +845,15 @@ const PharmaMarketingSolution = () => {
               <button
                 onClick={() => { setApiKey(''); setShowApiSettings(false); }}
                 style={{
-                  background: '#e0e0e0',
-                  color: '#212121',
-                  border: 'none',
-                  borderRadius: '8px',
-                  padding: '14px 28px',
-                  fontSize: '15px',
-                  fontWeight: '600',
-                  cursor: 'pointer'
+                  background: '#FFFFFF',
+                  color: '#374151',
+                  border: '1px solid #D1D5DB',
+                  borderRadius: '10px',
+                  padding: '12px 28px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s ease'
                 }}
               >
                 キャンセル
@@ -855,14 +861,15 @@ const PharmaMarketingSolution = () => {
               <button
                 onClick={handleSetApiKey}
                 style={{
-                  background: '#d52b1e',
+                  background: '#D52B1E',
                   color: '#fff',
                   border: 'none',
-                  borderRadius: '8px',
-                  padding: '14px 28px',
-                  fontSize: '15px',
-                  fontWeight: '600',
-                  cursor: 'pointer'
+                  borderRadius: '10px',
+                  padding: '12px 28px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s ease'
                 }}
               >
                 設定する
@@ -880,34 +887,36 @@ const PharmaMarketingSolution = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'rgba(0,0,0,0.5)',
+          background: 'rgba(255,255,255,0.7)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          zIndex: 9999
+          zIndex: 9999,
+          backdropFilter: 'blur(4px)'
         }}>
           <div style={{
-            background: '#fff',
-            borderRadius: '16px',
+            background: '#FFFFFF',
+            borderRadius: '12px',
             padding: '32px 48px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             gap: '16px',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+            boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
+            border: '1px solid #E5E7EB'
           }}>
             <div style={{
-              width: '48px',
-              height: '48px',
-              border: '4px solid #f5f5f5',
-              borderTop: '4px solid #d52b1e',
+              width: '44px',
+              height: '44px',
+              border: '3px solid #E5E7EB',
+              borderTop: '3px solid #D52B1E',
               borderRadius: '50%',
               animation: 'spin 1s linear infinite'
             }} />
             <div style={{
-              fontSize: '16px',
-              fontWeight: '600',
-              color: '#212121'
+              fontSize: '15px',
+              fontWeight: '500',
+              color: '#374151'
             }}>AI生成中...</div>
           </div>
         </div>
@@ -915,74 +924,77 @@ const PharmaMarketingSolution = () => {
 
       {/* ヘッダー */}
       <header style={{
-        background: '#212121',
-        color: '#fff',
+        background: '#FFFFFF',
+        color: '#1A1A1A',
         padding: '0',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
         position: 'sticky',
         top: 0,
-        zIndex: 1000
+        zIndex: 1000,
+        borderBottom: '1px solid #E5E7EB'
       }}>
         <div style={{
-          maxWidth: '1600px',
+          maxWidth: '1400px',
           margin: '0 auto',
-          padding: '0 20px'
+          padding: '0 24px'
         }}>
           <div style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            height: '80px',
+            height: '68px',
             gap: '16px',
             flexWrap: 'wrap',
-            minHeight: '80px'
+            minHeight: '68px'
           }}>
             <h1 style={{
               margin: 0,
-              fontSize: 'clamp(20px, 4vw, 28px)',
-              fontWeight: '700',
-              letterSpacing: '-0.5px'
+              fontSize: 'clamp(18px, 3.5vw, 24px)',
+              fontWeight: '600',
+              letterSpacing: '-0.3px'
             }}>
-              <span style={{ color: '#d52b1e' }}>PHARMA</span> Intelligence
+              <span style={{ color: '#D52B1E', fontWeight: '700' }}>Lilly</span>
+              <span style={{ color: '#6B7280', fontWeight: '400', marginLeft: '6px', fontSize: 'clamp(14px, 2.5vw, 16px)' }}>Pharma Intelligence</span>
             </h1>
             <div style={{
               display: 'flex',
-              gap: '12px',
+              gap: '10px',
               alignItems: 'center'
             }}>
               <button
                 onClick={() => setShowApiSettings(true)}
                 style={{
-                  background: isApiKeySet ? '#4caf50' : '#f44336',
-                  color: '#fff',
-                  border: 'none',
+                  background: isApiKeySet ? '#F0FDF4' : '#FEF2F2',
+                  color: isApiKeySet ? '#16A34A' : '#DC2626',
+                  border: isApiKeySet ? '1px solid #BBF7D0' : '1px solid #FECACA',
                   borderRadius: '8px',
-                  padding: '10px 16px',
+                  padding: '8px 14px',
                   fontSize: '13px',
-                  fontWeight: '600',
+                  fontWeight: '500',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '6px'
+                  gap: '6px',
+                  transition: 'all 0.2s ease'
                 }}
               >
-                <Shield size={16} />
+                <Shield size={14} />
                 {isApiKeySet ? 'API設定済み' : 'API設定'}
               </button>
               <select
                 value={selectedDisease}
                 onChange={(e) => handleDiseaseChange(e.target.value)}
                 style={{
-                  background: '#fff',
-                  border: 'none',
+                  background: '#F8F9FA',
+                  border: '1px solid #D1D5DB',
                   borderRadius: '8px',
-                  padding: '12px 20px',
-                  fontSize: 'clamp(13px, 2vw, 15px)',
+                  padding: '10px 16px',
+                  fontSize: 'clamp(13px, 2vw, 14px)',
                   fontWeight: '500',
-                  color: '#212121',
+                  color: '#1A1A1A',
                   cursor: 'pointer',
                   outline: 'none',
-                  transition: 'all 0.3s ease'
+                  transition: 'border-color 0.2s ease'
                 }}
               >
                 {diseases.map(d => (
@@ -996,17 +1008,17 @@ const PharmaMarketingSolution = () => {
 
       {/* ナビゲーション */}
       <nav style={{
-        background: '#fff',
-        borderBottom: '1px solid #e0e0e0',
+        background: '#FFFFFF',
+        borderBottom: '1px solid #E5E7EB',
         position: 'sticky',
-        top: '80px',
+        top: '68px',
         zIndex: 999,
         overflowX: 'auto'
       }}>
         <div style={{
-          maxWidth: '1600px',
+          maxWidth: '1400px',
           margin: '0 auto',
-          padding: '0 20px',
+          padding: '0 24px',
           display: 'flex',
           gap: '0',
           minWidth: 'max-content'
@@ -1023,23 +1035,23 @@ const PharmaMarketingSolution = () => {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 style={{
-                  background: activeTab === tab.id ? '#d52b1e' : 'transparent',
-                  color: activeTab === tab.id ? '#fff' : '#212121',
+                  background: 'transparent',
+                  color: activeTab === tab.id ? '#D52B1E' : '#6B7280',
                   border: 'none',
-                  padding: '20px 24px',
-                  fontSize: 'clamp(13px, 2vw, 15px)',
-                  fontWeight: '600',
+                  padding: '16px 20px',
+                  fontSize: 'clamp(13px, 2vw, 14px)',
+                  fontWeight: activeTab === tab.id ? '600' : '500',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '10px',
-                  transition: 'all 0.3s ease',
-                  borderBottom: activeTab === tab.id ? '3px solid #d52b1e' : '3px solid transparent',
+                  gap: '8px',
+                  transition: 'all 0.2s ease',
+                  borderBottom: activeTab === tab.id ? '2px solid #D52B1E' : '2px solid transparent',
                   position: 'relative',
                   whiteSpace: 'nowrap'
                 }}
               >
-                <Icon size={18} />
+                <Icon size={16} />
                 {tab.label}
               </button>
             );
@@ -1049,9 +1061,9 @@ const PharmaMarketingSolution = () => {
 
       {/* メインコンテンツ */}
       <main style={{
-        maxWidth: '1600px',
+        maxWidth: '1400px',
         margin: '0 auto',
-        padding: 'clamp(20px, 4vw, 40px)'
+        padding: 'clamp(20px, 4vw, 32px) clamp(20px, 4vw, 24px)'
       }}>
         {/* Dashboard */}
         {activeTab === 'dashboard' && (
@@ -1065,14 +1077,16 @@ const PharmaMarketingSolution = () => {
           }}>
             {/* KPI Overview Row */}
             <div style={{
-              background: 'linear-gradient(135deg, #d52b1e 0%, #a82218 100%)',
+              background: '#FFFFFF',
               borderRadius: '12px',
-              padding: '20px 32px',
+              padding: '20px 28px',
               marginBottom: '4px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              boxShadow: '0 4px 16px rgba(213, 43, 30, 0.2)',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+              border: '1px solid #E5E7EB',
+              borderLeft: '4px solid #D52B1E',
               animation: isTransitioning ? 'none' : 'slideInDown 0.5s ease both',
               opacity: isTransitioning ? 0 : 1,
               transform: isTransitioning ? 'translateY(-20px)' : 'translateY(0)',
@@ -1080,29 +1094,31 @@ const PharmaMarketingSolution = () => {
             }}>
               <div>
                 <div style={{
-                  fontSize: '14px',
-                  color: 'rgba(255,255,255,0.8)',
-                  fontWeight: '600',
-                  marginBottom: '4px'
+                  fontSize: '12px',
+                  color: '#6B7280',
+                  fontWeight: '500',
+                  marginBottom: '4px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
                 }}>現在の分析対象</div>
                 <h2 style={{
                   margin: 0,
-                  fontSize: 'clamp(24px, 4vw, 32px)',
-                  fontWeight: '700',
-                  color: '#fff',
+                  fontSize: 'clamp(22px, 3.5vw, 28px)',
+                  fontWeight: '600',
+                  color: '#1A1A1A',
                   animation: isTransitioning ? 'none' : 'numberPulse 0.6s ease 0.2s both'
                 }}>{selectedDisease}</h2>
               </div>
               <div style={{
-                background: 'rgba(255,255,255,0.2)',
+                background: '#F8F9FA',
                 borderRadius: '8px',
-                padding: '12px 20px',
-                backdropFilter: 'blur(10px)'
+                padding: '10px 16px',
+                border: '1px solid #E5E7EB'
               }}>
-                <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.9)', marginBottom: '4px' }}>
+                <div style={{ fontSize: '11px', color: '#6B7280', marginBottom: '2px' }}>
                   データ更新時刻
                 </div>
-                <div style={{ fontSize: '14px', color: '#fff', fontWeight: '600' }}>
+                <div style={{ fontSize: '13px', color: '#1A1A1A', fontWeight: '600' }}>
                   {new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}
                 </div>
               </div>
@@ -1123,39 +1139,39 @@ const PharmaMarketingSolution = () => {
                 { label: '継続率', value: currentData.kpi.retention.value, change: currentData.kpi.retention.change, desc: '6ヶ月時点' }
               ].map((item, i) => (
                 <div key={i} style={{
-                  background: '#fff',
-                  borderRadius: '12px',
+                  background: '#FFFFFF',
+                  borderRadius: '10px',
                   padding: '20px 16px',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-                  borderLeft: i < 3 ? '3px solid #d52b1e' : '3px solid #212121',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                  border: '1px solid #E5E7EB',
                   animation: isTransitioning ? 'none' : `slideInUp 0.5s ease ${i * 0.05}s both`,
                   transform: isTransitioning ? 'scale(0.95)' : 'scale(1)',
                   transition: 'all 0.3s ease'
                 }}>
                   <div style={{
                     fontSize: '11px',
-                    fontWeight: '700',
-                    color: '#757575',
+                    fontWeight: '600',
+                    color: '#9CA3AF',
                     marginBottom: '6px',
                     textTransform: 'uppercase',
                     letterSpacing: '0.5px'
                   }}>{item.label}</div>
                   <div style={{
-                    fontSize: '24px',
-                    fontWeight: '700',
-                    color: '#212121',
+                    fontSize: '22px',
+                    fontWeight: '600',
+                    color: '#1A1A1A',
                     marginBottom: '4px',
                     animation: isTransitioning ? 'none' : `numberPulse 0.6s ease ${i * 0.05 + 0.2}s both`
                   }}>{item.value}</div>
                   <div style={{
                     fontSize: '11px',
-                    color: '#757575',
+                    color: '#9CA3AF',
                     marginBottom: '6px'
                   }}>{item.desc}</div>
                   <div style={{
                     fontSize: '12px',
                     fontWeight: '600',
-                    color: item.change.startsWith('+') ? '#4caf50' : '#f44336',
+                    color: item.change.startsWith('+') ? '#16A34A' : '#DC2626',
                     animation: isTransitioning ? 'none' : `fadeInScale 0.5s ease ${i * 0.05 + 0.3}s both`
                   }}>{item.change}</div>
                 </div>
@@ -1170,12 +1186,12 @@ const PharmaMarketingSolution = () => {
             }}>
               {/* Regional Sales */}
               <div style={{
-                background: '#fff',
+                background: '#FFFFFF',
                 borderRadius: '12px',
                 padding: '24px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                border: '1px solid #E5E7EB',
                 animation: isTransitioning ? 'none' : 'slideInLeft 0.6s ease 0.3s both',
-                transform: isTransitioning ? 'translateX(-20px)' : 'translateX(0)',
                 opacity: isTransitioning ? 0 : 1,
                 transition: 'all 0.3s ease'
               }}>
@@ -1189,12 +1205,12 @@ const PharmaMarketingSolution = () => {
                     margin: 0,
                     fontSize: '16px',
                     fontWeight: '700',
-                    color: '#212121'
+                    color: '#1A1A1A'
                   }}>エリア別販売状況</h3>
                   <div style={{
                     fontSize: '11px',
-                    color: '#757575',
-                    background: '#f5f5f5',
+                    color: '#6B7280',
+                    background: '#F0F1F3',
                     padding: '4px 10px',
                     borderRadius: '4px',
                     fontWeight: '600'
@@ -1206,20 +1222,20 @@ const PharmaMarketingSolution = () => {
                     <XAxis dataKey="region" style={{ fontSize: '11px' }} />
                     <YAxis style={{ fontSize: '11px' }} />
                     <Tooltip />
-                    <Bar dataKey="sales" fill="#212121" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="growth" fill="#d52b1e" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="sales" fill="#374151" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="growth" fill="#D52B1E" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
 
               {/* Competitor Share */}
               <div style={{
-                background: '#fff',
+                background: '#FFFFFF',
                 borderRadius: '12px',
                 padding: '24px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                border: '1px solid #E5E7EB',
                 animation: isTransitioning ? 'none' : 'slideInUp 0.6s ease 0.4s both',
-                transform: isTransitioning ? 'scale(0.95)' : 'scale(1)',
                 opacity: isTransitioning ? 0 : 1,
                 transition: 'all 0.3s ease'
               }}>
@@ -1227,7 +1243,7 @@ const PharmaMarketingSolution = () => {
                   margin: '0 0 20px 0',
                   fontSize: '16px',
                   fontWeight: '700',
-                  color: '#212121'
+                  color: '#1A1A1A'
                 }}>競合シェア</h3>
                 <ResponsiveContainer width="100%" height={180}>
                   <PieChart>
@@ -1259,7 +1275,7 @@ const PharmaMarketingSolution = () => {
                       justifyContent: 'space-between',
                       alignItems: 'center',
                       padding: '8px 12px',
-                      background: '#f5f5f5',
+                      background: '#F8F9FA',
                       borderRadius: '6px'
                     }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -1269,11 +1285,11 @@ const PharmaMarketingSolution = () => {
                           background: item.color,
                           borderRadius: '2px'
                         }} />
-                        <span style={{ fontSize: '13px', color: '#212121', fontWeight: '500' }}>
+                        <span style={{ fontSize: '13px', color: '#1A1A1A', fontWeight: '500' }}>
                           {item.name}
                         </span>
                       </div>
-                      <span style={{ fontSize: '14px', fontWeight: '700', color: '#212121' }}>
+                      <span style={{ fontSize: '14px', fontWeight: '700', color: '#1A1A1A' }}>
                         {item.value}%
                       </span>
                     </div>
@@ -1283,12 +1299,12 @@ const PharmaMarketingSolution = () => {
 
               {/* Consumer Insights */}
               <div style={{
-                background: '#fff',
+                background: '#FFFFFF',
                 borderRadius: '12px',
                 padding: '24px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                border: '1px solid #E5E7EB',
                 animation: isTransitioning ? 'none' : 'slideInRight 0.6s ease 0.5s both',
-                transform: isTransitioning ? 'translateX(20px)' : 'translateX(0)',
                 opacity: isTransitioning ? 0 : 1,
                 transition: 'all 0.3s ease'
               }}>
@@ -1296,7 +1312,7 @@ const PharmaMarketingSolution = () => {
                   margin: '0 0 20px 0',
                   fontSize: '16px',
                   fontWeight: '700',
-                  color: '#212121'
+                  color: '#1A1A1A'
                 }}>生活者インサイト</h3>
                 <div style={{
                   display: 'flex',
@@ -1313,23 +1329,23 @@ const PharmaMarketingSolution = () => {
                       }}>
                         <span style={{
                           fontSize: '12px',
-                          color: '#212121',
+                          color: '#1A1A1A',
                           fontWeight: '600'
                         }}>{item.category}</span>
                         <span style={{
                           fontSize: '13px',
                           fontWeight: '700',
-                          color: '#d52b1e'
+                          color: '#D52B1E'
                         }}>{item.score}</span>
                       </div>
                       <div style={{
-                        background: '#f5f5f5',
+                        background: '#F0F1F3',
                         height: '8px',
                         borderRadius: '4px',
                         overflow: 'hidden'
                       }}>
                         <div style={{
-                          background: item.score > 75 ? '#d52b1e' : '#757575',
+                          background: item.score > 75 ? '#D52B1E' : '#9CA3AF',
                           height: '100%',
                           width: `${item.score}%`,
                           borderRadius: '4px',
@@ -1350,10 +1366,10 @@ const PharmaMarketingSolution = () => {
             }}>
               {/* Medical Institution Analysis */}
               <div style={{
-                background: '#fff',
+                background: '#FFFFFF',
                 borderRadius: '12px',
                 padding: '24px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)', border: '1px solid #E5E7EB',
                 animation: isTransitioning ? 'none' : 'slideInUp 0.6s ease 0.6s both',
                 opacity: isTransitioning ? 0 : 1,
                 transition: 'all 0.3s ease'
@@ -1362,7 +1378,7 @@ const PharmaMarketingSolution = () => {
                   margin: '0 0 20px 0',
                   fontSize: '16px',
                   fontWeight: '700',
-                  color: '#212121'
+                  color: '#1A1A1A'
                 }}>医療機関分析</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                   {currentData.medicalInstitutions.map((item, i) => (
@@ -1371,22 +1387,22 @@ const PharmaMarketingSolution = () => {
                       justifyContent: 'space-between',
                       alignItems: 'center',
                       padding: '10px 14px',
-                      background: '#f5f5f5',
+                      background: '#F8F9FA',
                       borderRadius: '8px'
                     }}>
                       <div>
-                        <div style={{ fontSize: '13px', fontWeight: '600', color: '#212121' }}>
+                        <div style={{ fontSize: '13px', fontWeight: '600', color: '#1A1A1A' }}>
                           {item.type}
                         </div>
-                        <div style={{ fontSize: '11px', color: '#757575', marginTop: '2px' }}>
+                        <div style={{ fontSize: '11px', color: '#6B7280', marginTop: '2px' }}>
                           {item.count}施設
                         </div>
                       </div>
                       <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#d52b1e' }}>
+                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#D52B1E' }}>
                           {item.adoption}%
                         </div>
-                        <div style={{ fontSize: '10px', color: item.trend === 'up' ? '#4caf50' : '#757575', fontWeight: '600' }}>
+                        <div style={{ fontSize: '10px', color: item.trend === 'up' ? '#16A34A' : '#9CA3AF', fontWeight: '600' }}>
                           {item.trend === 'up' ? '↑' : '→'}
                         </div>
                       </div>
@@ -1397,10 +1413,10 @@ const PharmaMarketingSolution = () => {
 
               {/* Prescription Trend */}
               <div style={{
-                background: '#fff',
+                background: '#FFFFFF',
                 borderRadius: '12px',
                 padding: '24px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)', border: '1px solid #E5E7EB',
                 animation: isTransitioning ? 'none' : 'slideInUp 0.6s ease 0.7s both',
                 opacity: isTransitioning ? 0 : 1,
                 transition: 'all 0.3s ease'
@@ -1409,7 +1425,7 @@ const PharmaMarketingSolution = () => {
                   margin: '0 0 20px 0',
                   fontSize: '16px',
                   fontWeight: '700',
-                  color: '#212121'
+                  color: '#1A1A1A'
                 }}>処方推移</h3>
                 <ResponsiveContainer width="100%" height={200}>
                   <LineChart data={currentData.prescriptionTrend}>
@@ -1417,17 +1433,17 @@ const PharmaMarketingSolution = () => {
                     <XAxis dataKey="month" style={{ fontSize: '11px' }} />
                     <YAxis style={{ fontSize: '11px' }} />
                     <Tooltip />
-                    <Line type="monotone" dataKey="value" stroke="#d52b1e" strokeWidth={3} dot={{ fill: '#d52b1e', r: 4 }} />
+                    <Line type="monotone" dataKey="value" stroke="#D52B1E" strokeWidth={3} dot={{ fill: '#D52B1E', r: 4 }} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
 
               {/* Macro Trends */}
               <div style={{
-                background: '#fff',
+                background: '#FFFFFF',
                 borderRadius: '12px',
                 padding: '24px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)', border: '1px solid #E5E7EB',
                 animation: isTransitioning ? 'none' : 'slideInUp 0.6s ease 0.8s both',
                 opacity: isTransitioning ? 0 : 1,
                 transition: 'all 0.3s ease'
@@ -1436,20 +1452,20 @@ const PharmaMarketingSolution = () => {
                   margin: '0 0 20px 0',
                   fontSize: '16px',
                   fontWeight: '700',
-                  color: '#212121'
+                  color: '#1A1A1A'
                 }}>マクロトレンド</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {currentData.macroTrends.map((item, i) => (
                     <div key={i} style={{
                       padding: '12px',
-                      background: '#f5f5f5',
+                      background: '#F8F9FA',
                       borderRadius: '8px',
-                      borderLeft: `3px solid ${item.impact === '高' ? '#d52b1e' : '#757575'}`
+                      borderLeft: `3px solid ${item.impact === '高' ? '#D52B1E' : '#D1D5DB'}`
                     }}>
                       <div style={{
                         fontSize: '12px',
                         fontWeight: '700',
-                        color: '#212121',
+                        color: '#1A1A1A',
                         marginBottom: '4px'
                       }}>{item.trend}</div>
                       <div style={{
@@ -1458,10 +1474,10 @@ const PharmaMarketingSolution = () => {
                         alignItems: 'center',
                         marginTop: '6px'
                       }}>
-                        <span style={{ fontSize: '11px', color: '#757575' }}>
+                        <span style={{ fontSize: '11px', color: '#6B7280' }}>
                           {item.indicator}
                         </span>
-                        <span style={{ fontSize: '12px', fontWeight: '700', color: '#d52b1e' }}>
+                        <span style={{ fontSize: '12px', fontWeight: '700', color: '#D52B1E' }}>
                           {item.value}
                         </span>
                       </div>
@@ -1473,7 +1489,7 @@ const PharmaMarketingSolution = () => {
 
             {/* CTA Section */}
             <div style={{
-              background: 'linear-gradient(135deg, #212121 0%, #424242 100%)',
+              background: 'linear-gradient(135deg, #FFFFFF 0%, #F8F9FA 100%)',
               borderRadius: '12px',
               padding: '32px 40px',
               display: 'flex',
@@ -1481,25 +1497,26 @@ const PharmaMarketingSolution = () => {
               gap: window.innerWidth < 768 ? '20px' : '0',
               justifyContent: 'space-between',
               alignItems: window.innerWidth < 768 ? 'stretch' : 'center',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.15)'
+              boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+              border: '1px solid #E5E7EB'
             }}>
               <div>
                 <h3 style={{
                   margin: '0 0 8px 0',
                   fontSize: '20px',
                   fontWeight: '700',
-                  color: '#fff'
+                  color: '#1A1A1A'
                 }}>包括的な市場分析完了</h3>
                 <p style={{
                   margin: 0,
                   fontSize: '14px',
-                  color: '#bdbdbd'
+                  color: '#6B7280'
                 }}>次のステップ：AIペルソナとの対話で患者インサイトを深掘りしましょう</p>
               </div>
               <button
                 onClick={() => setActiveTab('chat')}
                 style={{
-                  background: '#d52b1e',
+                  background: '#D52B1E',
                   color: '#fff',
                   border: 'none',
                   borderRadius: '8px',
@@ -1507,7 +1524,7 @@ const PharmaMarketingSolution = () => {
                   fontSize: 'clamp(13px, 2vw, 14px)',
                   fontWeight: '700',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(213, 43, 30, 0.4)',
+                  boxShadow: '0 4px 12px rgba(213, 43, 30, 0.15)',
                   transition: 'all 0.2s ease',
                   whiteSpace: 'nowrap',
                   width: window.innerWidth < 768 ? '100%' : 'auto',
@@ -1515,11 +1532,11 @@ const PharmaMarketingSolution = () => {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 16px rgba(213, 43, 30, 0.5)';
+                  e.currentTarget.style.boxShadow = '0 6px 16px rgba(213, 43, 30, 0.2)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(213, 43, 30, 0.4)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(213, 43, 30, 0.15)';
                 }}
               >
                 AIペルソナと対話 →
@@ -1538,30 +1555,31 @@ const PharmaMarketingSolution = () => {
             animation: 'fadeIn 0.5s ease'
           }}>
             <div style={{
-              background: '#fff',
-              borderRadius: '16px',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+              background: '#FFFFFF',
+              borderRadius: '12px',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+              border: '1px solid #E5E7EB',
               display: 'flex',
               flexDirection: 'column',
               overflow: 'hidden'
             }}>
               <div style={{
                 padding: '24px 32px',
-                borderBottom: '1px solid #e0e0e0',
-                background: '#f5f5f5'
+                borderBottom: '1px solid #E5E7EB',
+                background: '#F8F9FA'
               }}>
                 <h2 style={{
                   margin: '0',
                   fontSize: '20px',
                   fontWeight: '700',
-                  color: '#212121'
+                  color: '#1A1A1A'
                 }}>
                   AIペルソナチャット - {selectedDisease}患者
                 </h2>
                 <p style={{
                   margin: '8px 0 0 0',
                   fontSize: '14px',
-                  color: '#757575'
+                  color: '#6B7280'
                 }}>
                   患者の視点で対話し、深いインサイトを発見してください
                 </p>
@@ -1578,7 +1596,7 @@ const PharmaMarketingSolution = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#bdbdbd',
+                    color: '#9CA3AF',
                     fontSize: '15px'
                   }}>
                     患者に質問を投げかけてみましょう
@@ -1599,7 +1617,7 @@ const PharmaMarketingSolution = () => {
                           width: '40px',
                           height: '40px',
                           borderRadius: '50%',
-                          background: msg.role === 'user' ? '#212121' : '#d52b1e',
+                          background: msg.role === 'user' ? '#374151' : '#D52B1E',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -1617,8 +1635,8 @@ const PharmaMarketingSolution = () => {
                           gap: '8px'
                         }}>
                           <div style={{
-                            background: msg.role === 'user' ? '#212121' : '#f5f5f5',
-                            color: msg.role === 'user' ? '#fff' : '#212121',
+                            background: msg.role === 'user' ? '#1A1A1A' : '#F0F1F3',
+                            color: msg.role === 'user' ? '#fff' : '#1A1A1A',
                             padding: '16px 20px',
                             borderRadius: '12px',
                             fontSize: '15px',
@@ -1634,7 +1652,7 @@ const PharmaMarketingSolution = () => {
                               disabled={savedInsights.find(s => s.id === msg.id)}
                               style={{
                                 alignSelf: 'flex-start',
-                                background: savedInsights.find(s => s.id === msg.id) ? '#4caf50' : '#d52b1e',
+                                background: savedInsights.find(s => s.id === msg.id) ? '#16A34A' : '#D52B1E',
                                 color: '#fff',
                                 border: 'none',
                                 borderRadius: '6px',
@@ -1670,8 +1688,8 @@ const PharmaMarketingSolution = () => {
 
               <div style={{
                 padding: '24px 32px',
-                borderTop: '1px solid #e0e0e0',
-                background: '#f5f5f5'
+                borderTop: '1px solid #E5E7EB',
+                background: '#F8F9FA'
               }}>
                 <div style={{ display: 'flex', gap: '12px' }}>
                   <input
@@ -1683,7 +1701,7 @@ const PharmaMarketingSolution = () => {
                     style={{
                       flex: 1,
                       padding: '16px 20px',
-                      border: '2px solid #e0e0e0',
+                      border: '2px solid #D1D5DB',
                       borderRadius: '12px',
                       fontSize: '15px',
                       outline: 'none',
@@ -1693,7 +1711,7 @@ const PharmaMarketingSolution = () => {
                   <button
                     onClick={handleSendMessage}
                     style={{
-                      background: '#d52b1e',
+                      background: '#D52B1E',
                       color: '#fff',
                       border: 'none',
                       borderRadius: '12px',
@@ -1713,9 +1731,10 @@ const PharmaMarketingSolution = () => {
             </div>
 
             <div style={{
-              background: '#fff',
-              borderRadius: '16px',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+              background: '#FFFFFF',
+              borderRadius: '12px',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+              border: '1px solid #E5E7EB',
               padding: '32px',
               display: 'flex',
               flexDirection: 'column'
@@ -1724,7 +1743,7 @@ const PharmaMarketingSolution = () => {
                 margin: '0 0 20px 0',
                 fontSize: '18px',
                 fontWeight: '700',
-                color: '#212121'
+                color: '#1A1A1A'
               }}>保存済みインサイト</h3>
               <div style={{
                 flex: 1,
@@ -1736,7 +1755,7 @@ const PharmaMarketingSolution = () => {
                 {savedInsights.length === 0 ? (
                   <div style={{
                     textAlign: 'center',
-                    color: '#bdbdbd',
+                    color: '#9CA3AF',
                     fontSize: '14px',
                     padding: '40px 20px'
                   }}>
@@ -1747,13 +1766,13 @@ const PharmaMarketingSolution = () => {
                     <div
                       key={i}
                       style={{
-                        background: '#f5f5f5',
+                        background: '#F8F9FA',
                         padding: '16px',
                         borderRadius: '8px',
                         fontSize: '14px',
                         lineHeight: '1.6',
-                        color: '#212121',
-                        borderLeft: '3px solid #d52b1e'
+                        color: '#1A1A1A',
+                        borderLeft: '3px solid #D52B1E'
                       }}
                     >
                       {insight.content}
@@ -1766,7 +1785,7 @@ const PharmaMarketingSolution = () => {
                   onClick={generateJourney}
                   style={{
                     marginTop: '20px',
-                    background: '#212121',
+                    background: '#D52B1E',
                     color: '#fff',
                     border: 'none',
                     borderRadius: '12px',
@@ -1796,24 +1815,26 @@ const PharmaMarketingSolution = () => {
           <div style={{ animation: 'fadeIn 0.5s ease' }}>
             {!journey ? (
               <div style={{
-                background: '#fff',
-                borderRadius: '16px',
+                background: '#FFFFFF',
+                borderRadius: '12px',
                 padding: '80px 40px',
                 textAlign: 'center',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.08)'
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                border: '1px solid #E5E7EB'
               }}>
-                <Map size={64} color='#d52b1e' style={{ margin: '0 auto 24px auto' }} />
+                <Map size={56} color='#D52B1E' style={{ margin: '0 auto 24px auto' }} />
                 <h2 style={{
                   margin: '0 0 16px 0',
-                  fontSize: '28px',
-                  fontWeight: '700',
-                  color: '#212121'
+                  fontSize: '24px',
+                  fontWeight: '600',
+                  color: '#1A1A1A'
                 }}>Patient Journeyを生成</h2>
                 <p style={{
-                  fontSize: '16px',
-                  color: '#757575',
+                  fontSize: '15px',
+                  color: '#6B7280',
                   maxWidth: '600px',
-                  margin: '0 auto 32px'
+                  margin: '0 auto 32px',
+                  lineHeight: '1.7'
                 }}>
                   ダッシュボードデータとAIペルソナとの対話から得たインサイトを統合し、<br />
                   包括的なPatient Journeyを自動生成します
@@ -1821,19 +1842,19 @@ const PharmaMarketingSolution = () => {
                 <button
                   onClick={generateJourney}
                   style={{
-                    background: '#d52b1e',
+                    background: '#D52B1E',
                     color: '#fff',
                     border: 'none',
-                    borderRadius: '12px',
-                    padding: '20px 48px',
-                    fontSize: '16px',
-                    fontWeight: '700',
+                    borderRadius: '10px',
+                    padding: '16px 40px',
+                    fontSize: '15px',
+                    fontWeight: '500',
                     cursor: 'pointer',
-                    boxShadow: '0 4px 12px rgba(213, 43, 30, 0.3)',
-                    transition: 'transform 0.2s ease'
+                    boxShadow: '0 2px 8px rgba(213, 43, 30, 0.15)',
+                    transition: 'all 0.2s ease'
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-1px)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                 >
                   Journey生成を開始
                 </button>
@@ -1841,11 +1862,12 @@ const PharmaMarketingSolution = () => {
             ) : (
               <div>
                 <div style={{
-                  background: '#fff',
-                  borderRadius: '16px',
-                  padding: 'clamp(20px, 4vw, 32px)',
+                  background: '#FFFFFF',
+                  borderRadius: '12px',
+                  padding: 'clamp(20px, 4vw, 28px)',
                   marginBottom: '24px',
-                  boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                  border: '1px solid #E5E7EB',
                   display: 'flex',
                   flexDirection: window.innerWidth < 768 ? 'column' : 'row',
                   gap: window.innerWidth < 768 ? '20px' : '0',
@@ -1855,31 +1877,32 @@ const PharmaMarketingSolution = () => {
                   <div>
                     <h2 style={{
                       margin: '0 0 8px 0',
-                      fontSize: '24px',
-                      fontWeight: '700',
-                      color: '#212121'
+                      fontSize: '22px',
+                      fontWeight: '600',
+                      color: '#1A1A1A'
                     }}>Patient Journey - {selectedDisease}</h2>
                     <p style={{
                       margin: 0,
                       fontSize: '14px',
-                      color: '#757575'
+                      color: '#6B7280'
                     }}>患者の行動変容プロセスと各ステージでのマーケティング施策</p>
                   </div>
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <button
                       onClick={toggleEditMode}
                       style={{
-                        background: editingJourney ? '#4caf50' : '#212121',
-                        color: '#fff',
-                        border: 'none',
+                        background: editingJourney ? '#16A34A' : '#FFFFFF',
+                        color: editingJourney ? '#fff' : '#374151',
+                        border: editingJourney ? 'none' : '1px solid #D1D5DB',
                         borderRadius: '8px',
-                        padding: '12px 24px',
-                        fontSize: '14px',
-                        fontWeight: '600',
+                        padding: '10px 20px',
+                        fontSize: '13px',
+                        fontWeight: '500',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '8px'
+                        gap: '8px',
+                        transition: 'all 0.2s ease'
                       }}
                     >
                       {editingJourney ? <Check size={16} /> : <Edit3 size={16} />}
@@ -1887,13 +1910,13 @@ const PharmaMarketingSolution = () => {
                     </button>
                     <button
                       style={{
-                        background: '#d52b1e',
+                        background: '#D52B1E',
                         color: '#fff',
                         border: 'none',
                         borderRadius: '8px',
-                        padding: '12px 24px',
-                        fontSize: '14px',
-                        fontWeight: '600',
+                        padding: '10px 20px',
+                        fontSize: '13px',
+                        fontWeight: '500',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
@@ -1917,17 +1940,18 @@ const PharmaMarketingSolution = () => {
                     <div
                       key={index}
                       style={{
-                        minWidth: window.innerWidth < 768 ? '300px' : '380px',
-                        background: '#fff',
-                        borderRadius: '16px',
-                        boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                        minWidth: window.innerWidth < 768 ? '300px' : '360px',
+                        background: '#FFFFFF',
+                        borderRadius: '12px',
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                        border: '1px solid #E5E7EB',
                         overflow: 'hidden'
                       }}
                     >
                       <div style={{
-                        background: index === 0 ? '#d52b1e' : '#212121',
+                        background: index === 0 ? '#D52B1E' : '#374151',
                         color: '#fff',
-                        padding: '24px',
+                        padding: '20px',
                         textAlign: 'center'
                       }}>
                         <div style={{
@@ -1948,7 +1972,7 @@ const PharmaMarketingSolution = () => {
                           <div style={{
                             fontSize: '12px',
                             fontWeight: '700',
-                            color: '#d52b1e',
+                            color: '#D52B1E',
                             marginBottom: '8px',
                             textTransform: 'uppercase',
                             letterSpacing: '0.5px'
@@ -1960,9 +1984,9 @@ const PharmaMarketingSolution = () => {
                               style={{
                                 width: '100%',
                                 fontSize: '14px',
-                                color: '#212121',
+                                color: '#1A1A1A',
                                 lineHeight: '1.6',
-                                border: '2px solid #d52b1e',
+                                border: '1px solid #D1D5DB',
                                 borderRadius: '8px',
                                 padding: '12px',
                                 fontFamily: 'inherit',
@@ -1973,7 +1997,7 @@ const PharmaMarketingSolution = () => {
                           ) : (
                             <div style={{
                               fontSize: '14px',
-                              color: '#212121',
+                              color: '#1A1A1A',
                               lineHeight: '1.6'
                             }}>{stage.behavior}</div>
                           )}
@@ -1983,7 +2007,7 @@ const PharmaMarketingSolution = () => {
                           <div style={{
                             fontSize: '12px',
                             fontWeight: '700',
-                            color: '#d52b1e',
+                            color: '#D52B1E',
                             marginBottom: '8px',
                             textTransform: 'uppercase',
                             letterSpacing: '0.5px'
@@ -1995,9 +2019,9 @@ const PharmaMarketingSolution = () => {
                               style={{
                                 width: '100%',
                                 fontSize: '14px',
-                                color: '#212121',
+                                color: '#1A1A1A',
                                 lineHeight: '1.6',
-                                border: '2px solid #d52b1e',
+                                border: '1px solid #D1D5DB',
                                 borderRadius: '8px',
                                 padding: '12px',
                                 fontFamily: 'inherit',
@@ -2008,7 +2032,7 @@ const PharmaMarketingSolution = () => {
                           ) : (
                             <div style={{
                               fontSize: '14px',
-                              color: '#212121',
+                              color: '#1A1A1A',
                               lineHeight: '1.6'
                             }}>{stage.touchpoints}</div>
                           )}
@@ -2018,7 +2042,7 @@ const PharmaMarketingSolution = () => {
                           <div style={{
                             fontSize: '12px',
                             fontWeight: '700',
-                            color: '#d52b1e',
+                            color: '#D52B1E',
                             marginBottom: '8px',
                             textTransform: 'uppercase',
                             letterSpacing: '0.5px'
@@ -2030,13 +2054,13 @@ const PharmaMarketingSolution = () => {
                               style={{
                                 width: '100%',
                                 fontSize: '14px',
-                                color: '#212121',
+                                color: '#1A1A1A',
                                 lineHeight: '1.6',
                                 fontStyle: 'italic',
-                                background: '#f5f5f5',
+                                background: '#F8F9FA',
                                 padding: '12px',
                                 borderRadius: '8px',
-                                border: '2px solid #d52b1e',
+                                border: '1px solid #D1D5DB',
                                 fontFamily: 'inherit',
                                 resize: 'vertical',
                                 minHeight: '60px'
@@ -2045,10 +2069,10 @@ const PharmaMarketingSolution = () => {
                           ) : (
                             <div style={{
                               fontSize: '14px',
-                              color: '#212121',
+                              color: '#1A1A1A',
                               lineHeight: '1.6',
                               fontStyle: 'italic',
-                              background: '#f5f5f5',
+                              background: '#F8F9FA',
                               padding: '12px',
                               borderRadius: '8px'
                             }}>"{stage.thoughts}"</div>
@@ -2059,7 +2083,7 @@ const PharmaMarketingSolution = () => {
                           <div style={{
                             fontSize: '12px',
                             fontWeight: '700',
-                            color: '#d52b1e',
+                            color: '#D52B1E',
                             marginBottom: '8px',
                             textTransform: 'uppercase',
                             letterSpacing: '0.5px'
@@ -2071,9 +2095,9 @@ const PharmaMarketingSolution = () => {
                               style={{
                                 width: '100%',
                                 fontSize: '14px',
-                                color: '#212121',
+                                color: '#1A1A1A',
                                 lineHeight: '1.6',
-                                border: '2px solid #d52b1e',
+                                border: '1px solid #D1D5DB',
                                 borderRadius: '8px',
                                 padding: '12px',
                                 fontFamily: 'inherit',
@@ -2084,15 +2108,15 @@ const PharmaMarketingSolution = () => {
                           ) : (
                             <div style={{
                               fontSize: '14px',
-                              color: '#212121',
+                              color: '#1A1A1A',
                               lineHeight: '1.6'
                             }}>{stage.triggers}</div>
                           )}
                         </div>
 
                         <div style={{
-                          background: '#fffbf0',
-                          border: '2px solid #ffd700',
+                          background: '#FFFBEB',
+                          border: '1px solid #FCD34D',
                           borderRadius: '8px',
                           padding: '16px',
                           marginBottom: '20px'
@@ -2100,7 +2124,7 @@ const PharmaMarketingSolution = () => {
                           <div style={{
                             fontSize: '12px',
                             fontWeight: '700',
-                            color: '#212121',
+                            color: '#1A1A1A',
                             marginBottom: '8px',
                             textTransform: 'uppercase',
                             letterSpacing: '0.5px'
@@ -2112,10 +2136,10 @@ const PharmaMarketingSolution = () => {
                               style={{
                                 width: '100%',
                                 fontSize: '14px',
-                                color: '#212121',
+                                color: '#1A1A1A',
                                 lineHeight: '1.6',
                                 fontWeight: '500',
-                                border: '2px solid #ffd700',
+                                border: '1px solid #FCD34D',
                                 borderRadius: '8px',
                                 padding: '12px',
                                 fontFamily: 'inherit',
@@ -2127,7 +2151,7 @@ const PharmaMarketingSolution = () => {
                           ) : (
                             <div style={{
                               fontSize: '14px',
-                              color: '#212121',
+                              color: '#1A1A1A',
                               lineHeight: '1.6',
                               fontWeight: '500'
                             }}>{stage.marketingPoints}</div>
@@ -2138,7 +2162,7 @@ const PharmaMarketingSolution = () => {
                           <div style={{
                             fontSize: '12px',
                             fontWeight: '700',
-                            color: '#d52b1e',
+                            color: '#D52B1E',
                             marginBottom: '12px',
                             textTransform: 'uppercase',
                             letterSpacing: '0.5px',
@@ -2151,7 +2175,7 @@ const PharmaMarketingSolution = () => {
                               <button
                                 onClick={() => addJourneyAction(index)}
                                 style={{
-                                  background: '#4caf50',
+                                  background: '#16A34A',
                                   color: '#fff',
                                   border: 'none',
                                   borderRadius: '6px',
@@ -2174,11 +2198,11 @@ const PharmaMarketingSolution = () => {
                               <div
                                 key={i}
                                 style={{
-                                  background: '#f5f5f5',
+                                  background: '#F8F9FA',
                                   padding: '12px',
                                   borderRadius: '8px',
                                   fontSize: '13px',
-                                  color: '#212121',
+                                  color: '#1A1A1A',
                                   display: 'flex',
                                   justifyContent: 'space-between',
                                   alignItems: 'center',
@@ -2193,7 +2217,7 @@ const PharmaMarketingSolution = () => {
                                       onChange={(e) => updateJourneyAction(index, i, e.target.value)}
                                       style={{
                                         flex: 1,
-                                        border: '2px solid #d52b1e',
+                                        border: '1px solid #D1D5DB',
                                         borderRadius: '6px',
                                         padding: '8px',
                                         fontSize: '13px',
@@ -2204,7 +2228,7 @@ const PharmaMarketingSolution = () => {
                                     <button
                                       onClick={() => deleteJourneyAction(index, i)}
                                       style={{
-                                        background: '#f44336',
+                                        background: '#DC2626',
                                         color: '#fff',
                                         border: 'none',
                                         borderRadius: '6px',
@@ -2225,7 +2249,7 @@ const PharmaMarketingSolution = () => {
                                       onClick={() => saveAction(stage.name, action)}
                                       disabled={savedActions.find(a => a.action === action)}
                                       style={{
-                                        background: savedActions.find(a => a.action === action) ? '#4caf50' : '#d52b1e',
+                                        background: savedActions.find(a => a.action === action) ? '#16A34A' : '#D52B1E',
                                         color: '#fff',
                                         border: 'none',
                                         borderRadius: '6px',
@@ -2262,44 +2286,44 @@ const PharmaMarketingSolution = () => {
         {activeTab === 'legal' && (
           <div style={{ animation: 'fadeIn 0.5s ease' }}>
             <div style={{
-              background: '#fff',
-              borderRadius: '16px',
+              background: '#FFFFFF',
+              borderRadius: '12px',
               padding: '32px',
               marginBottom: '24px',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.08)'
+              boxShadow: '0 1px 3px rgba(0,0,0,0.04)', border: '1px solid #E5E7EB'
             }}>
               <h2 style={{
                 margin: '0 0 8px 0',
                 fontSize: '24px',
                 fontWeight: '700',
-                color: '#212121'
-              }}>Legal Check - 薬事法コンプライアンス</h2>
+                color: '#1A1A1A'
+              }}>Legal Check</h2>
               <p style={{
                 margin: 0,
                 fontSize: '14px',
-                color: '#757575'
-              }}>保存した施策案を薬事法の観点から審査し、リスクと代替案を提示します</p>
+                color: '#6B7280'
+              }}>保存した施策案を薬事法コンプライアンスの観点から審査し、リスクと代替案を提示します</p>
             </div>
 
             {savedActions.length === 0 ? (
               <div style={{
-                background: '#fff',
-                borderRadius: '16px',
+                background: '#FFFFFF',
+                borderRadius: '12px',
                 padding: '80px 40px',
                 textAlign: 'center',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.08)'
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)', border: '1px solid #E5E7EB'
               }}>
-                <Shield size={64} color='#d52b1e' style={{ margin: '0 auto 24px auto' }} />
+                <Shield size={48} color='#D52B1E' style={{ margin: '0 auto 24px auto' }} />
                 <h3 style={{
                   margin: '0 0 16px 0',
                   fontSize: '24px',
                   fontWeight: '700',
-                  color: '#212121'
+                  color: '#1A1A1A'
                 }}>チェック対象の施策がありません</h3>
                 <p style={{
                   margin: 0,
                   fontSize: '16px',
-                  color: '#757575'
+                  color: '#6B7280'
                 }}>Patient Journeyから施策を保存してください</p>
               </div>
             ) : (
@@ -2308,10 +2332,10 @@ const PharmaMarketingSolution = () => {
                   <div
                     key={action.id}
                     style={{
-                      background: '#fff',
-                      borderRadius: '16px',
+                      background: '#FFFFFF',
+                      borderRadius: '12px',
                       padding: '32px',
-                      boxShadow: '0 2px 12px rgba(0,0,0,0.08)'
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.04)', border: '1px solid #E5E7EB'
                     }}
                   >
                     <div style={{
@@ -2323,8 +2347,8 @@ const PharmaMarketingSolution = () => {
                       <div style={{ flex: 1 }}>
                         <div style={{
                           display: 'inline-block',
-                          background: '#f5f5f5',
-                          color: '#d52b1e',
+                          background: '#F8F9FA',
+                          color: '#D52B1E',
                           padding: '6px 12px',
                           borderRadius: '6px',
                           fontSize: '12px',
@@ -2337,14 +2361,14 @@ const PharmaMarketingSolution = () => {
                           margin: '0 0 8px 0',
                           fontSize: '18px',
                           fontWeight: '700',
-                          color: '#212121'
+                          color: '#1A1A1A'
                         }}>{action.action}</h3>
                       </div>
                       <button
                         onClick={() => performLegalCheck(action.id)}
                         disabled={legalChecks[action.id]}
                         style={{
-                          background: legalChecks[action.id] ? '#4caf50' : '#d52b1e',
+                          background: legalChecks[action.id] ? '#16A34A' : '#D52B1E',
                           color: '#fff',
                           border: 'none',
                           borderRadius: '8px',
@@ -2365,7 +2389,7 @@ const PharmaMarketingSolution = () => {
 
                     {legalChecks[action.id] && (
                       <div style={{
-                        borderTop: '1px solid #e0e0e0',
+                        borderTop: '1px solid #E5E7EB',
                         paddingTop: '24px',
                         display: 'flex',
                         flexDirection: 'column',
@@ -2375,11 +2399,11 @@ const PharmaMarketingSolution = () => {
                           <div
                             key={i}
                             style={{
-                              background: check.status === 'warning' ? '#fff3e0' :
-                                         check.status === 'caution' ? '#fff9e6' : '#e8f5e9',
-                              border: `2px solid ${check.status === 'warning' ? '#ff9800' :
-                                                   check.status === 'caution' ? '#ffc107' : '#4caf50'}`,
-                              borderRadius: '12px',
+                              background: check.status === 'warning' ? '#FFF7ED' :
+                                         check.status === 'caution' ? '#FFFBEB' : '#F0FDF4',
+                              border: `1px solid ${check.status === 'warning' ? '#FDBA74' :
+                                                   check.status === 'caution' ? '#FDE68A' : '#BBF7D0'}`,
+                              borderRadius: '10px',
                               padding: '20px'
                             }}
                           >
@@ -2389,18 +2413,18 @@ const PharmaMarketingSolution = () => {
                               gap: '8px',
                               marginBottom: '12px'
                             }}>
-                              {check.status !== 'clear' && <AlertCircle size={20} color={check.status === 'warning' ? '#ff9800' : '#ffc107'} />}
+                              {check.status !== 'clear' && <AlertCircle size={20} color={check.status === 'warning' ? '#F59E0B' : '#FBBF24'} />}
                               <h4 style={{
                                 margin: 0,
                                 fontSize: '16px',
                                 fontWeight: '700',
-                                color: '#212121'
+                                color: '#1A1A1A'
                               }}>{check.issue}</h4>
                             </div>
                             <p style={{
                               margin: '0 0 16px 0',
                               fontSize: '14px',
-                              color: '#212121',
+                              color: '#1A1A1A',
                               lineHeight: '1.6'
                             }}>{check.detail}</p>
 
@@ -2409,7 +2433,7 @@ const PharmaMarketingSolution = () => {
                                 <div style={{
                                   fontSize: '13px',
                                   fontWeight: '700',
-                                  color: '#212121',
+                                  color: '#1A1A1A',
                                   marginBottom: '8px'
                                 }}>推奨される代替案・回避策:</div>
                                 <ul style={{
@@ -2422,7 +2446,7 @@ const PharmaMarketingSolution = () => {
                                   {check.alternatives.map((alt, j) => (
                                     <li key={j} style={{
                                       fontSize: '14px',
-                                      color: '#212121',
+                                      color: '#1A1A1A',
                                       lineHeight: '1.6'
                                     }}>{alt}</li>
                                   ))}
@@ -2442,6 +2466,8 @@ const PharmaMarketingSolution = () => {
       </main>
 
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
+
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -2541,17 +2567,17 @@ const PharmaMarketingSolution = () => {
         }
         
         ::-webkit-scrollbar-track {
-          background: #f5f5f5;
+          background: #F4F5F7;
           border-radius: 4px;
         }
-        
+
         ::-webkit-scrollbar-thumb {
-          background: #bdbdbd;
+          background: #D1D5DB;
           border-radius: 4px;
         }
         
         ::-webkit-scrollbar-thumb:hover {
-          background: #9e9e9e;
+          background: #9CA3AF;
         }
 
         @media (max-width: 768px) {
