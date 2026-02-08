@@ -256,6 +256,21 @@ JSON形式で出力してください：`;
   }
 });
 
+// ルートパス
+app.get('/', (req, res) => {
+  res.json({
+    service: 'Pharma Marketing Backend API',
+    status: 'ok',
+    endpoints: [
+      'POST /api/set-api-key',
+      'POST /api/generate-persona-response',
+      'POST /api/generate-journey',
+      'POST /api/legal-check',
+      'GET /health'
+    ]
+  });
+});
+
 // ヘルスチェック
 app.get('/health', (req, res) => {
   res.json({ 
