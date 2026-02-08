@@ -14,37 +14,22 @@ app.use(express.json());
 // フロントエンド静的ファイルの配信
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Gemini API クライアントの初期化
+// Gemini API クライアントの初期化（環境変数 GEMINI_API_KEY から読み込み）
 let genAI = null;
 
-// .envにAPIキーが設定されている場合は起動時に初期化
 if (process.env.GEMINI_API_KEY) {
   genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  console.log('Gemini API initialized from .env');
+  console.log('Gemini API initialized from environment variable');
+} else {
+  console.warn('WARNING: GEMINI_API_KEY is not set. AI features will not work.');
 }
-
-// API Key設定エンドポイント
-app.post('/api/set-api-key', (req, res) => {
-  const { apiKey } = req.body;
-  
-  if (!apiKey) {
-    return res.status(400).json({ error: 'API Keyが必要です' });
-  }
-  
-  try {
-    genAI = new GoogleGenerativeAI(apiKey);
-    res.json({ success: true, message: 'API Keyが設定されました' });
-  } catch (error) {
-    res.status(500).json({ error: 'API Keyの設定に失敗しました', details: error.message });
-  }
-});
 
 // AI Personaチャット生成エンドポイント
 app.post('/api/generate-persona-response', async (req, res) => {
   if (!genAI) {
-    return res.status(400).json({ error: 'API Keyが設定されていません' });
+    return res.status(503).json({ error: 'GEMINI_API_KEY 環境変数が設定されていません。サーバー管理者に連絡してください。' });
   }
-  
+
   const { disease, userMessage, conversationHistory } = req.body;
   
   try {
@@ -90,7 +75,7 @@ ${conversationHistory.map(msg => `${msg.role === 'user' ? 'マーケター' : '�
 // Patient Journey生成エンドポイント
 app.post('/api/generate-journey', async (req, res) => {
   if (!genAI) {
-    return res.status(400).json({ error: 'API Keyが設定されていません' });
+    return res.status(503).json({ error: 'GEMINI_API_KEY 環境変数が設定されていません。サーバー管理者に連絡してください。' });
   }
   
   const { disease, dashboardData, savedInsights } = req.body;
@@ -173,7 +158,7 @@ JSON形式で出力してください：`;
 // Legal Check生成エンドポイント
 app.post('/api/legal-check', async (req, res) => {
   if (!genAI) {
-    return res.status(400).json({ error: 'API Keyが設定されていません' });
+    return res.status(503).json({ error: 'GEMINI_API_KEY 環境変数が設定されていません。サーバー管理者に連絡してください。' });
   }
   
   const { disease, action, stage } = req.body;

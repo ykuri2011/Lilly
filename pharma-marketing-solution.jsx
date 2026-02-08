@@ -14,10 +14,6 @@ const PharmaMarketingSolution = () => {
   const [editedJourney, setEditedJourney] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   
-  // API設定
-  const [apiKey, setApiKey] = useState('');
-  const [isApiKeySet, setIsApiKeySet] = useState(false);
-  const [showApiSettings, setShowApiSettings] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
 
   const API_BASE_URL = '/api';
@@ -35,35 +31,6 @@ const PharmaMarketingSolution = () => {
         setIsTransitioning(false);
       }, 50);
     }, 300);
-  };
-
-  // API Key設定
-  const handleSetApiKey = async () => {
-    if (!apiKey.trim()) {
-      alert('API Keyを入力してください');
-      return;
-    }
-
-    try {
-      const response = await fetch(`${API_BASE_URL}/set-api-key`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ apiKey: apiKey.trim() })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setApiKey('');
-        setIsApiKeySet(true);
-        setShowApiSettings(false);
-        alert('API Keyが設定されました！');
-      } else {
-        alert(`エラー: ${data.error}`);
-      }
-    } catch (error) {
-      alert(`接続エラー: ${error.message}\n\nバックエンドサーバーが起動していることを確認してください。`);
-    }
   };
 
   // 疾患別データ定義
@@ -452,12 +419,6 @@ const PharmaMarketingSolution = () => {
   const handleSendMessage = async () => {
     if (!chatInput.trim()) return;
 
-    if (!isApiKeySet) {
-      alert('先にGemini API Keyを設定してください');
-      setShowApiSettings(true);
-      return;
-    }
-
     const userMessage = { role: 'user', content: chatInput, timestamp: new Date() };
     setChatMessages(prev => [...prev, userMessage]);
     setChatInput('');
@@ -503,12 +464,6 @@ const PharmaMarketingSolution = () => {
 
   // Patient Journey生成
   const generateJourney = async () => {
-    if (!isApiKeySet) {
-      alert('先にGemini API Keyを設定してください');
-      setShowApiSettings(true);
-      return;
-    }
-
     setIsGenerating(true);
     setActiveTab('journey');
 
@@ -677,12 +632,6 @@ const PharmaMarketingSolution = () => {
     const action = savedActions.find(a => a.id === actionId);
     if (!action) return;
 
-    if (!isApiKeySet) {
-      alert('先にGemini API Keyを設定してください');
-      setShowApiSettings(true);
-      return;
-    }
-
     setIsGenerating(true);
 
     try {
@@ -754,131 +703,6 @@ const PharmaMarketingSolution = () => {
       fontFamily: '"Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif',
       color: '#2D2D2D'
     }}>
-      {/* API設定モーダル */}
-      {showApiSettings && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0,0,0,0.35)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 10000,
-          padding: '20px',
-          backdropFilter: 'blur(4px)'
-        }}>
-          <div style={{
-            background: '#FFFFFF',
-            borderRadius: '12px',
-            padding: '40px',
-            maxWidth: '600px',
-            width: '100%',
-            boxShadow: '0 12px 40px rgba(0,0,0,0.12)',
-            border: '1px solid #E5E7EB'
-          }}>
-            <h2 style={{
-              margin: '0 0 24px 0',
-              fontSize: '22px',
-              fontWeight: '600',
-              color: '#1A1A1A',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px'
-            }}>
-              <Shield size={24} color='#D52B1E' />
-              Gemini API Key 設定
-            </h2>
-            
-            <p style={{
-              margin: '0 0 24px 0',
-              fontSize: '14px',
-              color: '#6B7280',
-              lineHeight: '1.7'
-            }}>
-              AI機能（AIペルソナ、Patient Journey生成、Legal Check）を使用するには、Google Gemini API Keyが必要です。
-            </p>
-
-            <div style={{
-              background: '#F8F9FA',
-              padding: '16px',
-              borderRadius: '10px',
-              marginBottom: '24px',
-              fontSize: '13px',
-              lineHeight: '1.7',
-              border: '1px solid #E5E7EB'
-            }}>
-              <strong>API Keyの取得方法：</strong><br />
-              1. <a href="https://makersuite.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style={{ color: '#D52B1E' }}>Google AI Studio</a> にアクセス<br />
-              2. Googleアカウントでログイン<br />
-              3. "Get API Key" をクリックしてAPI Keyを生成<br />
-              4. 生成されたキーをコピーして下記に貼り付け
-            </div>
-
-            <input
-              type="password"
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-              placeholder="API Keyを入力してください"
-              style={{
-                width: '100%',
-                padding: '16px',
-                fontSize: '15px',
-                border: '1px solid #D1D5DB',
-                borderRadius: '10px',
-                marginBottom: '24px',
-                fontFamily: 'monospace',
-                outline: 'none',
-                transition: 'border-color 0.2s ease'
-              }}
-              onFocus={(e) => e.target.style.borderColor = '#D52B1E'}
-              onBlur={(e) => e.target.style.borderColor = '#D1D5DB'}
-            />
-
-            <div style={{
-              display: 'flex',
-              gap: '12px',
-              justifyContent: 'flex-end'
-            }}>
-              <button
-                onClick={() => { setApiKey(''); setShowApiSettings(false); }}
-                style={{
-                  background: '#FFFFFF',
-                  color: '#374151',
-                  border: '1px solid #D1D5DB',
-                  borderRadius: '10px',
-                  padding: '12px 28px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  cursor: 'pointer',
-                  transition: 'background 0.2s ease'
-                }}
-              >
-                キャンセル
-              </button>
-              <button
-                onClick={handleSetApiKey}
-                style={{
-                  background: '#D52B1E',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '10px',
-                  padding: '12px 28px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  cursor: 'pointer',
-                  transition: 'background 0.2s ease'
-                }}
-              >
-                設定する
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* ローディングオーバーレイ */}
       {isGenerating && (
         <div style={{
@@ -961,26 +785,6 @@ const PharmaMarketingSolution = () => {
               gap: '10px',
               alignItems: 'center'
             }}>
-              <button
-                onClick={() => setShowApiSettings(true)}
-                style={{
-                  background: isApiKeySet ? '#F0FDF4' : '#FEF2F2',
-                  color: isApiKeySet ? '#16A34A' : '#DC2626',
-                  border: isApiKeySet ? '1px solid #BBF7D0' : '1px solid #FECACA',
-                  borderRadius: '8px',
-                  padding: '8px 14px',
-                  fontSize: '13px',
-                  fontWeight: '500',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <Shield size={14} />
-                {isApiKeySet ? 'API設定済み' : 'API設定'}
-              </button>
               <select
                 value={selectedDisease}
                 onChange={(e) => handleDiseaseChange(e.target.value)}
