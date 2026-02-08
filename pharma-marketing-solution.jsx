@@ -20,7 +20,7 @@ const PharmaMarketingSolution = () => {
   const [showApiSettings, setShowApiSettings] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const API_BASE_URL = 'http://localhost:3001/api';
+  const API_BASE_URL = '/api';
 
   // 疾患リスト
   const diseases = ['糖尿病', '肥満症', '関節リウマチ', '乾癬', 'アトピー性皮膚炎', 'アルツハイマー病', '偏頭痛'];
