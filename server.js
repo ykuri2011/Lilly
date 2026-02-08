@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
@@ -9,6 +10,9 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// フロントエンド静的ファイルの配信
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Gemini API クライアントの初期化
 let genAI = null;
@@ -254,21 +258,6 @@ JSON形式で出力してください：`;
       details: error.message 
     });
   }
-});
-
-// ルートパス
-app.get('/', (req, res) => {
-  res.json({
-    service: 'Pharma Marketing Backend API',
-    status: 'ok',
-    endpoints: [
-      'POST /api/set-api-key',
-      'POST /api/generate-persona-response',
-      'POST /api/generate-journey',
-      'POST /api/legal-check',
-      'GET /health'
-    ]
-  });
 });
 
 // ヘルスチェック
