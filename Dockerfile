@@ -2,7 +2,7 @@ FROM node:20-slim AS build
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
 FROM node:20-slim
