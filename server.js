@@ -1,11 +1,14 @@
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { GoogleGenAI } = require('@google/genai');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Gemini モデル名
+const GEMINI_MODEL = 'gemini-2.5-flash';
 
 // Middleware
 app.use(cors());
@@ -18,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 let genAI = null;
 
 if (process.env.GEMINI_API_KEY) {
-  genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   console.log('Gemini API initialized from environment variable');
 } else {
   console.warn('WARNING: GEMINI_API_KEY is not set. AI features will not work.');
@@ -33,8 +36,6 @@ app.post('/api/generate-persona-response', async (req, res) => {
   const { disease, userMessage, conversationHistory } = req.body;
   
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-    
     // プロンプト構築
     const systemPrompt = `あなたは${disease}の患者です。以下の設定で患者として振る舞ってください：
 
@@ -58,9 +59,11 @@ ${conversationHistory.map(msg => `${msg.role === 'user' ? 'マーケター' : '�
 
 患者として、上記の質問に自然に回答してください：`;
 
-    const result = await model.generateContent(systemPrompt);
-    const response = await result.response;
-    const text = response.text();
+    const result = await genAI.models.generateContent({
+      model: GEMINI_MODEL,
+      contents: systemPrompt,
+    });
+    const text = result.text;
     
     res.json({ 
       response: text,
@@ -68,7 +71,7 @@ ${conversationHistory.map(msg => `${msg.role === 'user' ? 'マーケター' : '�
     });
   } catch (error) {
     console.error('Gemini API Error:', error);
-    res.status(500).json({ error: 'AI応答の生成に失敗しました', details: error.message });
+    res.status(500).json({ error: `AI応答の生成に失敗しました: ${error.message}`, details: error.message });
   }
 });
 
@@ -81,8 +84,6 @@ app.post('/api/generate-journey', async (req, res) => {
   const { disease, dashboardData, savedInsights } = req.body;
   
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-    
     const systemPrompt = `あなたは医療用医薬品のマーケティング戦略を立案する専門家です。
 
 【タスク】
@@ -129,28 +130,30 @@ ${savedInsights && savedInsights.length > 0 ? savedInsights.map((insight, i) => 
 
 JSON形式で出力してください：`;
 
-    const result = await model.generateContent(systemPrompt);
-    const response = await result.response;
-    let text = response.text();
-    
+    const result = await genAI.models.generateContent({
+      model: GEMINI_MODEL,
+      contents: systemPrompt,
+    });
+    let text = result.text;
+
     // JSONの抽出（```json ``` で囲まれている場合に対応）
     const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/) || text.match(/```\s*([\s\S]*?)\s*```/);
     if (jsonMatch) {
       text = jsonMatch[1];
     }
-    
+
     // JSONのパース
     const journeyData = JSON.parse(text.trim());
-    
-    res.json({ 
+
+    res.json({
       journey: journeyData,
       timestamp: new Date().toISOString()
     });
   } catch (error) {
     console.error('Journey Generation Error:', error);
-    res.status(500).json({ 
-      error: 'Patient Journeyの生成に失敗しました', 
-      details: error.message 
+    res.status(500).json({
+      error: `Patient Journeyの生成に失敗しました: ${error.message}`,
+      details: error.message
     });
   }
 });
@@ -164,8 +167,6 @@ app.post('/api/legal-check', async (req, res) => {
   const { disease, action, stage } = req.body;
   
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-    
     const systemPrompt = `あなたは医薬品の薬事法・広告規制に詳しい専門家です。
 
 【タスク】
@@ -219,28 +220,30 @@ ${action}
 
 JSON形式で出力してください：`;
 
-    const result = await model.generateContent(systemPrompt);
-    const response = await result.response;
-    let text = response.text();
-    
+    const result = await genAI.models.generateContent({
+      model: GEMINI_MODEL,
+      contents: systemPrompt,
+    });
+    let text = result.text;
+
     // JSONの抽出
     const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/) || text.match(/```\s*([\s\S]*?)\s*```/);
     if (jsonMatch) {
       text = jsonMatch[1];
     }
-    
+
     // JSONのパース
     const legalCheckData = JSON.parse(text.trim());
-    
-    res.json({ 
+
+    res.json({
       legalCheck: legalCheckData,
       timestamp: new Date().toISOString()
     });
   } catch (error) {
     console.error('Legal Check Error:', error);
-    res.status(500).json({ 
-      error: 'Legal Checkの実行に失敗しました', 
-      details: error.message 
+    res.status(500).json({
+      error: `Legal Checkの実行に失敗しました: ${error.message}`,
+      details: error.message
     });
   }
 });
