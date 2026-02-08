@@ -1,4 +1,5 @@
 const path = require('path');
+const crypto = require('crypto');
 const express = require('express');
 const cors = require('cors');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
@@ -7,7 +8,41 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const BASIC_AUTH_USER = process.env.BASIC_AUTH_USER || 'lly26';
+const BASIC_AUTH_PASS = process.env.BASIC_AUTH_PASS || 'pw1234';
+
+// Basic認証ミドルウェア
+const basicAuth = (req, res, next) => {
+  // ヘルスチェックは認証不要
+  if (req.path === '/health') return next();
+
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Basic ')) {
+    res.set('WWW-Authenticate', 'Basic realm="Lilly Pharma Intelligence"');
+    return res.status(401).send('Authentication required');
+  }
+
+  const decoded = Buffer.from(authHeader.slice(6), 'base64').toString();
+  const idx = decoded.indexOf(':');
+  if (idx === -1) {
+    res.set('WWW-Authenticate', 'Basic realm="Lilly Pharma Intelligence"');
+    return res.status(401).send('Authentication required');
+  }
+
+  const user = decoded.slice(0, idx);
+  const pass = decoded.slice(idx + 1);
+
+  const userMatch = crypto.timingSafeEqual(Buffer.from(user), Buffer.from(BASIC_AUTH_USER));
+  const passMatch = crypto.timingSafeEqual(Buffer.from(pass), Buffer.from(BASIC_AUTH_PASS));
+
+  if (userMatch && passMatch) return next();
+
+  res.set('WWW-Authenticate', 'Basic realm="Lilly Pharma Intelligence"');
+  return res.status(401).send('Authentication required');
+};
+
 // Middleware
+app.use(basicAuth);
 app.use(cors());
 app.use(express.json());
 
