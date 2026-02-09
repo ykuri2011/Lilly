@@ -596,49 +596,59 @@ const PharmaMarketingSolution = () => {
     try {
       localStorage.setItem('memoAuthor', memoAuthor);
     } catch {}
+
+    const newMemo = {
+      id: 'local_' + Date.now(),
+      content: memoInput.trim(),
+      author: memoAuthor.trim(),
+      disease: selectedDisease,
+      category: memoCategory,
+      createdAt: new Date().toISOString()
+    };
+
+    // ローカルに即時反映
+    setDashboardMemos(prev => [newMemo, ...prev]);
+    setMemoInput('');
+    setMemoCategory('');
+
+    // Firestoreへの保存を試行
     try {
       const res = await fetch(`${API_BASE_URL}/memos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          content: memoInput.trim(),
-          author: memoAuthor.trim(),
-          disease: selectedDisease,
-          category: memoCategory
+          content: newMemo.content,
+          author: newMemo.author,
+          disease: newMemo.disease,
+          category: newMemo.category
         })
       });
       if (res.ok) {
         const data = await res.json();
-        setDashboardMemos(prev => [{
-          id: data.id,
-          content: memoInput.trim(),
-          author: memoAuthor.trim(),
-          disease: selectedDisease,
-          category: memoCategory,
-          createdAt: new Date().toISOString()
-        }, ...prev]);
-        setMemoInput('');
-        setMemoCategory('');
+        setDashboardMemos(prev => prev.map(m => m.id === newMemo.id ? { ...m, id: data.id } : m));
       }
     } catch (error) {
-      console.warn('Memo save failed:', error);
+      console.warn('Memo save to Firestore failed (local memo preserved):', error);
     }
   };
 
   // メモ削除
   const deleteMemo = async (memoId) => {
+    // ローカルから即時削除
+    setDashboardMemos(prev => prev.filter(m => m.id !== memoId));
+    setSelectedMemoIds(prev => {
+      const next = new Set(prev);
+      next.delete(memoId);
+      return next;
+    });
+
+    // ローカルIDの場合はFirestore削除不要
+    if (String(memoId).startsWith('local_')) return;
+
     try {
-      const res = await fetch(`${API_BASE_URL}/memos/${memoId}`, { method: 'DELETE' });
-      if (res.ok) {
-        setDashboardMemos(prev => prev.filter(m => m.id !== memoId));
-        setSelectedMemoIds(prev => {
-          const next = new Set(prev);
-          next.delete(memoId);
-          return next;
-        });
-      }
+      await fetch(`${API_BASE_URL}/memos/${memoId}`, { method: 'DELETE' });
     } catch (error) {
-      console.warn('Memo delete failed:', error);
+      console.warn('Memo delete from Firestore failed:', error);
     }
   };
 
