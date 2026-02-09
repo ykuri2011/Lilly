@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { MessageCircle, Database, Map, Shield, Save, Download, Edit3, Plus, Check, AlertCircle, Archive, Trash2, Clock, RefreshCw } from 'lucide-react';
+import { MessageCircle, Database, Map, Shield, Save, Download, Edit3, Plus, Check, AlertCircle, Archive, Trash2, Clock, RefreshCw, StickyNote, Send, Users, Lightbulb, X, CheckSquare, Square } from 'lucide-react';
 
 const PharmaMarketingSolution = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -22,6 +22,19 @@ const PharmaMarketingSolution = () => {
   const [firestoreLegalResults, setFirestoreLegalResults] = useState([]);
   const [activityLogs, setActivityLogs] = useState([]);
   const [firestoreAvailable, setFirestoreAvailable] = useState(true);
+
+  // ダッシュボードメモ機能
+  const [dashboardMemos, setDashboardMemos] = useState([]);
+  const [memoInput, setMemoInput] = useState('');
+  const [memoAuthor, setMemoAuthor] = useState(() => {
+    try { return localStorage.getItem('memoAuthor') || ''; } catch { return ''; }
+  });
+  const [memoCategory, setMemoCategory] = useState('');
+  const [selectedMemoIds, setSelectedMemoIds] = useState(new Set());
+  const [memoInsightMode, setMemoInsightMode] = useState(false);
+  const [memoInsightChat, setMemoInsightChat] = useState([]);
+  const [memoInsightInput, setMemoInsightInput] = useState('');
+  const [isMemoInsightGenerating, setIsMemoInsightGenerating] = useState(false);
 
   const API_BASE_URL = '/api';
 
@@ -425,11 +438,12 @@ const PharmaMarketingSolution = () => {
   // Firestore データ取得
   const fetchFirestoreData = async () => {
     try {
-      const [insightsRes, journeysRes, legalRes, logsRes] = await Promise.all([
+      const [insightsRes, journeysRes, legalRes, logsRes, memosRes] = await Promise.all([
         fetch(`${API_BASE_URL}/insights`).catch(() => null),
         fetch(`${API_BASE_URL}/journeys`).catch(() => null),
         fetch(`${API_BASE_URL}/legal-results`).catch(() => null),
-        fetch(`${API_BASE_URL}/logs`).catch(() => null)
+        fetch(`${API_BASE_URL}/logs`).catch(() => null),
+        fetch(`${API_BASE_URL}/memos`).catch(() => null)
       ]);
 
       if (insightsRes && insightsRes.ok) {
@@ -447,6 +461,10 @@ const PharmaMarketingSolution = () => {
       if (logsRes && logsRes.ok) {
         const data = await logsRes.json();
         setActivityLogs(data.logs || []);
+      }
+      if (memosRes && memosRes.ok) {
+        const data = await memosRes.json();
+        setDashboardMemos(data.memos || []);
       }
     } catch (error) {
       console.warn('Firestore data fetch failed:', error);
@@ -569,6 +587,118 @@ const PharmaMarketingSolution = () => {
       }
     } catch (error) {
       console.warn('Log delete failed:', error);
+    }
+  };
+
+  // ダッシュボードメモ保存
+  const saveMemo = async () => {
+    if (!memoInput.trim() || !memoAuthor.trim()) return;
+    try {
+      localStorage.setItem('memoAuthor', memoAuthor);
+    } catch {}
+    try {
+      const res = await fetch(`${API_BASE_URL}/memos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          content: memoInput.trim(),
+          author: memoAuthor.trim(),
+          disease: selectedDisease,
+          category: memoCategory
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setDashboardMemos(prev => [{
+          id: data.id,
+          content: memoInput.trim(),
+          author: memoAuthor.trim(),
+          disease: selectedDisease,
+          category: memoCategory,
+          createdAt: new Date().toISOString()
+        }, ...prev]);
+        setMemoInput('');
+        setMemoCategory('');
+      }
+    } catch (error) {
+      console.warn('Memo save failed:', error);
+    }
+  };
+
+  // メモ削除
+  const deleteMemo = async (memoId) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/memos/${memoId}`, { method: 'DELETE' });
+      if (res.ok) {
+        setDashboardMemos(prev => prev.filter(m => m.id !== memoId));
+        setSelectedMemoIds(prev => {
+          const next = new Set(prev);
+          next.delete(memoId);
+          return next;
+        });
+      }
+    } catch (error) {
+      console.warn('Memo delete failed:', error);
+    }
+  };
+
+  // メモ選択トグル
+  const toggleMemoSelection = (memoId) => {
+    setSelectedMemoIds(prev => {
+      const next = new Set(prev);
+      if (next.has(memoId)) {
+        next.delete(memoId);
+      } else {
+        next.add(memoId);
+      }
+      return next;
+    });
+  };
+
+  // メモインサイト会話を開始
+  const startMemoInsightConversation = () => {
+    const selectedMemos = dashboardMemos.filter(m => selectedMemoIds.has(m.id));
+    if (selectedMemos.length === 0) return;
+    setMemoInsightChat([]);
+    setMemoInsightInput('');
+    setMemoInsightMode(true);
+  };
+
+  // メモインサイト会話で送信
+  const sendMemoInsightMessage = async () => {
+    if (!memoInsightInput.trim()) return;
+    const selectedMemos = dashboardMemos.filter(m => selectedMemoIds.has(m.id));
+    const userMessage = { role: 'user', content: memoInsightInput, timestamp: new Date() };
+    setMemoInsightChat(prev => [...prev, userMessage]);
+    setMemoInsightInput('');
+    setIsMemoInsightGenerating(true);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/generate-memo-insight`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          memos: selectedMemos.map(m => ({ content: m.content, author: m.author, disease: m.disease, category: m.category })),
+          userMessage: memoInsightInput,
+          conversationHistory: memoInsightChat.slice(-10),
+          disease: selectedDisease
+        })
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setMemoInsightChat(prev => [...prev, {
+          role: 'assistant',
+          content: data.response,
+          timestamp: new Date()
+        }]);
+      } else {
+        alert(`エラー: ${data.error}`);
+      }
+    } catch (error) {
+      alert(`接続エラー: ${error.message}`);
+    } finally {
+      setIsMemoInsightGenerating(false);
     }
   };
 
@@ -1451,6 +1581,514 @@ const PharmaMarketingSolution = () => {
                 </div>
               </div>
             </div>
+
+            {/* Dashboard Memos - 社内共有メモ */}
+            <div style={{
+              background: '#FFFFFF',
+              borderRadius: '12px',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+              border: '1px solid #E5E7EB',
+              overflow: 'hidden',
+              animation: isTransitioning ? 'none' : 'slideInUp 0.6s ease 0.9s both',
+              opacity: isTransitioning ? 0 : 1,
+              transition: 'all 0.3s ease'
+            }}>
+              <div style={{
+                padding: '20px 28px',
+                borderBottom: '1px solid #E5E7EB',
+                background: '#F8F9FA',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '12px'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <StickyNote size={20} color="#D52B1E" />
+                  <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '700', color: '#1A1A1A' }}>
+                    チームメモ
+                  </h3>
+                  <span style={{
+                    background: '#FEE2E2',
+                    color: '#DC2626',
+                    padding: '2px 10px',
+                    borderRadius: '12px',
+                    fontSize: '12px',
+                    fontWeight: '600'
+                  }}>
+                    <Users size={12} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+                    社内共有
+                  </span>
+                </div>
+                {selectedMemoIds.size > 0 && (
+                  <button
+                    onClick={startMemoInsightConversation}
+                    style={{
+                      background: 'linear-gradient(135deg, #D52B1E 0%, #B91C1C 100%)',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      padding: '10px 20px',
+                      fontSize: '13px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      boxShadow: '0 2px 8px rgba(213, 43, 30, 0.2)',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-1px)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                  >
+                    <Lightbulb size={16} />
+                    選択したメモ（{selectedMemoIds.size}件）からインサイトを深掘り
+                  </button>
+                )}
+              </div>
+
+              {/* メモ入力フォーム */}
+              <div style={{
+                padding: '20px 28px',
+                borderBottom: '1px solid #F0F1F3',
+                background: '#FAFBFC'
+              }}>
+                <div style={{ display: 'flex', gap: '12px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                  <input
+                    type="text"
+                    value={memoAuthor}
+                    onChange={(e) => setMemoAuthor(e.target.value)}
+                    placeholder="あなたの名前"
+                    style={{
+                      width: '160px',
+                      padding: '10px 14px',
+                      border: '1px solid #D1D5DB',
+                      borderRadius: '8px',
+                      fontSize: '13px',
+                      outline: 'none',
+                      background: '#fff'
+                    }}
+                  />
+                  <select
+                    value={memoCategory}
+                    onChange={(e) => setMemoCategory(e.target.value)}
+                    style={{
+                      padding: '10px 14px',
+                      border: '1px solid #D1D5DB',
+                      borderRadius: '8px',
+                      fontSize: '13px',
+                      color: memoCategory ? '#1A1A1A' : '#9CA3AF',
+                      outline: 'none',
+                      background: '#fff',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <option value="">カテゴリ（任意）</option>
+                    <option value="市場動向">市場動向</option>
+                    <option value="競合分析">競合分析</option>
+                    <option value="患者インサイト">患者インサイト</option>
+                    <option value="施策アイデア">施策アイデア</option>
+                    <option value="リスク・課題">リスク・課題</option>
+                    <option value="その他">その他</option>
+                  </select>
+                </div>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <textarea
+                    value={memoInput}
+                    onChange={(e) => setMemoInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) saveMemo();
+                    }}
+                    placeholder="ダッシュボードから得た気づきをメモしてチームに共有しましょう... (Ctrl+Enterで投稿)"
+                    rows={2}
+                    style={{
+                      flex: 1,
+                      padding: '12px 14px',
+                      border: '1px solid #D1D5DB',
+                      borderRadius: '8px',
+                      fontSize: '14px',
+                      lineHeight: '1.6',
+                      outline: 'none',
+                      background: '#fff',
+                      fontFamily: 'inherit',
+                      resize: 'vertical'
+                    }}
+                  />
+                  <button
+                    onClick={saveMemo}
+                    disabled={!memoInput.trim() || !memoAuthor.trim()}
+                    style={{
+                      background: (!memoInput.trim() || !memoAuthor.trim()) ? '#D1D5DB' : '#D52B1E',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      padding: '12px 20px',
+                      fontSize: '13px',
+                      fontWeight: '600',
+                      cursor: (!memoInput.trim() || !memoAuthor.trim()) ? 'not-allowed' : 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      alignSelf: 'flex-end',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <Send size={14} />
+                    投稿
+                  </button>
+                </div>
+              </div>
+
+              {/* メモ一覧 */}
+              <div style={{
+                padding: '16px 28px',
+                maxHeight: '500px',
+                overflowY: 'auto'
+              }}>
+                {dashboardMemos.length === 0 ? (
+                  <div style={{
+                    textAlign: 'center',
+                    color: '#9CA3AF',
+                    fontSize: '14px',
+                    padding: '40px 0'
+                  }}>
+                    まだメモがありません。ダッシュボードを見て気づいたことをメモしましょう。
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {dashboardMemos.map((memo) => (
+                      <div
+                        key={memo.id}
+                        style={{
+                          display: 'flex',
+                          gap: '12px',
+                          alignItems: 'flex-start',
+                          padding: '16px',
+                          background: selectedMemoIds.has(memo.id) ? '#FEF2F2' : '#F8F9FA',
+                          borderRadius: '10px',
+                          border: selectedMemoIds.has(memo.id) ? '2px solid #D52B1E' : '1px solid #E5E7EB',
+                          transition: 'all 0.15s ease',
+                          cursor: 'pointer'
+                        }}
+                        onClick={() => toggleMemoSelection(memo.id)}
+                      >
+                        {/* チェックボックス */}
+                        <div style={{
+                          flexShrink: 0,
+                          marginTop: '2px',
+                          color: selectedMemoIds.has(memo.id) ? '#D52B1E' : '#9CA3AF'
+                        }}>
+                          {selectedMemoIds.has(memo.id) ? <CheckSquare size={20} /> : <Square size={20} />}
+                        </div>
+
+                        {/* メモ内容 */}
+                        <div style={{ flex: 1 }}>
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            marginBottom: '6px',
+                            flexWrap: 'wrap'
+                          }}>
+                            <span style={{
+                              fontSize: '13px',
+                              fontWeight: '700',
+                              color: '#1A1A1A'
+                            }}>{memo.author}</span>
+                            <span style={{
+                              background: '#FEE2E2',
+                              color: '#DC2626',
+                              padding: '1px 8px',
+                              borderRadius: '4px',
+                              fontSize: '11px',
+                              fontWeight: '600'
+                            }}>{memo.disease}</span>
+                            {memo.category && (
+                              <span style={{
+                                background: '#E0E7FF',
+                                color: '#3730A3',
+                                padding: '1px 8px',
+                                borderRadius: '4px',
+                                fontSize: '11px',
+                                fontWeight: '600'
+                              }}>{memo.category}</span>
+                            )}
+                            <span style={{
+                              fontSize: '11px',
+                              color: '#9CA3AF'
+                            }}>
+                              {memo.createdAt ? new Date(memo.createdAt).toLocaleString('ja-JP') : ''}
+                            </span>
+                          </div>
+                          <div style={{
+                            fontSize: '14px',
+                            color: '#1A1A1A',
+                            lineHeight: '1.7',
+                            whiteSpace: 'pre-wrap'
+                          }}>
+                            {memo.content}
+                          </div>
+                        </div>
+
+                        {/* 削除ボタン */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteMemo(memo.id);
+                          }}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#9CA3AF',
+                            cursor: 'pointer',
+                            padding: '4px',
+                            flexShrink: 0,
+                            display: 'flex',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* メモインサイト会話モーダル */}
+            {memoInsightMode && (
+              <div style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'rgba(0,0,0,0.5)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 10000,
+                backdropFilter: 'blur(4px)',
+                padding: '20px',
+                animation: 'fadeIn 0.3s ease'
+              }}>
+                <div style={{
+                  background: '#FFFFFF',
+                  borderRadius: '16px',
+                  width: '100%',
+                  maxWidth: '800px',
+                  maxHeight: '90vh',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                  boxShadow: '0 20px 60px rgba(0,0,0,0.15)'
+                }}>
+                  {/* ヘッダー */}
+                  <div style={{
+                    padding: '20px 28px',
+                    borderBottom: '1px solid #E5E7EB',
+                    background: 'linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%)',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <Lightbulb size={22} color="#D52B1E" />
+                      <div>
+                        <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '700', color: '#1A1A1A' }}>
+                          インサイト深掘り
+                        </h3>
+                        <p style={{ margin: '2px 0 0', fontSize: '12px', color: '#6B7280' }}>
+                          選択した{selectedMemoIds.size}件のメモをAIが分析します
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => setMemoInsightMode(false)}
+                      style={{
+                        background: '#F3F4F6',
+                        border: 'none',
+                        borderRadius: '8px',
+                        padding: '8px',
+                        cursor: 'pointer',
+                        color: '#6B7280',
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
+
+                  {/* 選択中のメモ一覧 */}
+                  <div style={{
+                    padding: '16px 28px',
+                    borderBottom: '1px solid #E5E7EB',
+                    background: '#FAFBFC',
+                    maxHeight: '180px',
+                    overflowY: 'auto'
+                  }}>
+                    <div style={{
+                      fontSize: '11px',
+                      fontWeight: '700',
+                      color: '#6B7280',
+                      marginBottom: '10px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}>選択中のメモ</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {dashboardMemos.filter(m => selectedMemoIds.has(m.id)).map((memo) => (
+                        <div key={memo.id} style={{
+                          padding: '10px 14px',
+                          background: '#fff',
+                          borderRadius: '8px',
+                          borderLeft: '3px solid #D52B1E',
+                          fontSize: '13px',
+                          lineHeight: '1.5'
+                        }}>
+                          <span style={{ fontWeight: '600', color: '#374151' }}>{memo.author}</span>
+                          <span style={{ color: '#9CA3AF', margin: '0 6px' }}>-</span>
+                          <span style={{ color: '#1A1A1A' }}>{memo.content}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* チャット領域 */}
+                  <div style={{
+                    flex: 1,
+                    overflowY: 'auto',
+                    padding: '20px 28px',
+                    minHeight: '200px'
+                  }}>
+                    {memoInsightChat.length === 0 ? (
+                      <div style={{
+                        textAlign: 'center',
+                        color: '#9CA3AF',
+                        fontSize: '14px',
+                        padding: '40px 20px',
+                        lineHeight: '1.8'
+                      }}>
+                        選択したメモについてAIに質問しましょう。<br />
+                        例：「これらのメモに共通するインサイトは？」「戦略的な示唆は？」
+                      </div>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        {memoInsightChat.map((msg, i) => (
+                          <div
+                            key={i}
+                            style={{
+                              display: 'flex',
+                              flexDirection: msg.role === 'user' ? 'row-reverse' : 'row',
+                              gap: '10px',
+                              alignItems: 'flex-start'
+                            }}
+                          >
+                            <div style={{
+                              width: '36px',
+                              height: '36px',
+                              borderRadius: '50%',
+                              background: msg.role === 'user' ? '#374151' : '#D52B1E',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: '#fff',
+                              fontSize: '13px',
+                              fontWeight: '700',
+                              flexShrink: 0
+                            }}>
+                              {msg.role === 'user' ? 'Y' : 'AI'}
+                            </div>
+                            <div style={{
+                              background: msg.role === 'user' ? '#1A1A1A' : '#F0F1F3',
+                              color: msg.role === 'user' ? '#fff' : '#1A1A1A',
+                              padding: '14px 18px',
+                              borderRadius: '12px',
+                              fontSize: '14px',
+                              lineHeight: '1.7',
+                              maxWidth: '75%'
+                            }}>
+                              {msg.content}
+                            </div>
+                          </div>
+                        ))}
+                        {isMemoInsightGenerating && (
+                          <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                            <div style={{
+                              width: '36px',
+                              height: '36px',
+                              borderRadius: '50%',
+                              background: '#D52B1E',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: '#fff',
+                              fontSize: '13px',
+                              fontWeight: '700',
+                              flexShrink: 0
+                            }}>AI</div>
+                            <div style={{
+                              background: '#F0F1F3',
+                              padding: '14px 18px',
+                              borderRadius: '12px',
+                              fontSize: '14px',
+                              color: '#9CA3AF'
+                            }}>
+                              分析中...
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 入力欄 */}
+                  <div style={{
+                    padding: '16px 28px',
+                    borderTop: '1px solid #E5E7EB',
+                    background: '#F8F9FA'
+                  }}>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <input
+                        type="text"
+                        value={memoInsightInput}
+                        onChange={(e) => setMemoInsightInput(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && !isMemoInsightGenerating && sendMemoInsightMessage()}
+                        placeholder="メモの背景にあるインサイトについて質問..."
+                        disabled={isMemoInsightGenerating}
+                        style={{
+                          flex: 1,
+                          padding: '14px 18px',
+                          border: '1px solid #D1D5DB',
+                          borderRadius: '10px',
+                          fontSize: '14px',
+                          outline: 'none',
+                          background: '#fff'
+                        }}
+                      />
+                      <button
+                        onClick={sendMemoInsightMessage}
+                        disabled={!memoInsightInput.trim() || isMemoInsightGenerating}
+                        style={{
+                          background: (!memoInsightInput.trim() || isMemoInsightGenerating) ? '#D1D5DB' : '#D52B1E',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: '10px',
+                          padding: '14px 24px',
+                          fontSize: '14px',
+                          fontWeight: '600',
+                          cursor: (!memoInsightInput.trim() || isMemoInsightGenerating) ? 'not-allowed' : 'pointer',
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        送信
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* CTA Section */}
             <div style={{
