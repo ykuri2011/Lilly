@@ -16,12 +16,11 @@ RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
 
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
-COPY package.json server.js ./
+COPY package.json server.js firestore.js ./
 
 ENV NODE_ENV=production
-ENV PORT=3001
 
-EXPOSE 3001
+EXPOSE 8080
 
 USER appuser
 
