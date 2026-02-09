@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const { GoogleGenAI } = require('@google/genai');
 require('dotenv').config();
+const { db } = require('./firestore');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -248,16 +249,218 @@ JSON形式で出力してください：`;
   }
 });
 
+// ========== Firestore CRUD エンドポイント ==========
+
+// ヘルパー: アクティビティログを記録
+const logActivity = async (type, action, detail = '') => {
+  if (!db) return;
+  try {
+    await db.collection('activity_logs').add({
+      type,
+      action,
+      detail,
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: new Date().toISOString()
+    });
+  } catch (e) {
+    console.error('Activity log error:', e.message);
+  }
+};
+
+// admin を firestore.js から再インポート
+const { admin } = require('./firestore');
+
+// --- インサイト (AI Persona) ---
+
+// インサイト保存
+app.post('/api/insights', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const { content, disease, messageId } = req.body;
+    const docRef = await db.collection('insights').add({
+      content,
+      disease,
+      messageId,
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: new Date().toISOString()
+    });
+    await logActivity('insight', 'save', `${disease}: ${content.substring(0, 50)}...`);
+    res.json({ id: docRef.id, message: 'インサイトを保存しました' });
+  } catch (error) {
+    console.error('Insight save error:', error);
+    res.status(500).json({ error: `インサイトの保存に失敗しました: ${error.message}` });
+  }
+});
+
+// インサイト一覧取得
+app.get('/api/insights', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const snapshot = await db.collection('insights').orderBy('createdAt', 'desc').get();
+    const insights = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json({ insights });
+  } catch (error) {
+    console.error('Insight fetch error:', error);
+    res.status(500).json({ error: `インサイトの取得に失敗しました: ${error.message}` });
+  }
+});
+
+// インサイト削除
+app.delete('/api/insights/:id', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const doc = await db.collection('insights').doc(req.params.id).get();
+    const data = doc.exists ? doc.data() : {};
+    await db.collection('insights').doc(req.params.id).delete();
+    await logActivity('insight', 'delete', `${data.disease || ''}: ${(data.content || '').substring(0, 50)}`);
+    res.json({ message: 'インサイトを削除しました' });
+  } catch (error) {
+    console.error('Insight delete error:', error);
+    res.status(500).json({ error: `インサイトの削除に失敗しました: ${error.message}` });
+  }
+});
+
+// --- Patient Journey 施策 ---
+
+// 施策保存
+app.post('/api/journeys', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const { stage, action, disease } = req.body;
+    const docRef = await db.collection('journey_actions').add({
+      stage,
+      action,
+      disease,
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: new Date().toISOString()
+    });
+    await logActivity('journey', 'save', `${disease} / ${stage}: ${action.substring(0, 50)}`);
+    res.json({ id: docRef.id, message: '施策を保存しました' });
+  } catch (error) {
+    console.error('Journey save error:', error);
+    res.status(500).json({ error: `施策の保存に失敗しました: ${error.message}` });
+  }
+});
+
+// 施策一覧取得
+app.get('/api/journeys', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const snapshot = await db.collection('journey_actions').orderBy('createdAt', 'desc').get();
+    const actions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json({ actions });
+  } catch (error) {
+    console.error('Journey fetch error:', error);
+    res.status(500).json({ error: `施策の取得に失敗しました: ${error.message}` });
+  }
+});
+
+// 施策削除
+app.delete('/api/journeys/:id', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const doc = await db.collection('journey_actions').doc(req.params.id).get();
+    const data = doc.exists ? doc.data() : {};
+    await db.collection('journey_actions').doc(req.params.id).delete();
+    await logActivity('journey', 'delete', `${data.disease || ''} / ${data.stage || ''}: ${(data.action || '').substring(0, 50)}`);
+    res.json({ message: '施策を削除しました' });
+  } catch (error) {
+    console.error('Journey delete error:', error);
+    res.status(500).json({ error: `施策の削除に失敗しました: ${error.message}` });
+  }
+});
+
+// --- Legal Check結果 ---
+
+// Legal Check結果保存
+app.post('/api/legal-results', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const { action, stage, disease, checks } = req.body;
+    const docRef = await db.collection('legal_results').add({
+      action,
+      stage,
+      disease,
+      checks,
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: new Date().toISOString()
+    });
+    await logActivity('legal', 'save', `${disease} / ${stage}: ${action.substring(0, 50)}`);
+    res.json({ id: docRef.id, message: 'Legal Check結果を保存しました' });
+  } catch (error) {
+    console.error('Legal result save error:', error);
+    res.status(500).json({ error: `Legal Check結果の保存に失敗しました: ${error.message}` });
+  }
+});
+
+// Legal Check結果一覧取得
+app.get('/api/legal-results', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const snapshot = await db.collection('legal_results').orderBy('createdAt', 'desc').get();
+    const results = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json({ results });
+  } catch (error) {
+    console.error('Legal result fetch error:', error);
+    res.status(500).json({ error: `Legal Check結果の取得に失敗しました: ${error.message}` });
+  }
+});
+
+// Legal Check結果削除
+app.delete('/api/legal-results/:id', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const doc = await db.collection('legal_results').doc(req.params.id).get();
+    const data = doc.exists ? doc.data() : {};
+    await db.collection('legal_results').doc(req.params.id).delete();
+    await logActivity('legal', 'delete', `${data.disease || ''}: ${(data.action || '').substring(0, 50)}`);
+    res.json({ message: 'Legal Check結果を削除しました' });
+  } catch (error) {
+    console.error('Legal result delete error:', error);
+    res.status(500).json({ error: `Legal Check結果の削除に失敗しました: ${error.message}` });
+  }
+});
+
+// --- アクティビティログ ---
+
+// ログ一覧取得
+app.get('/api/logs', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const snapshot = await db.collection('activity_logs').orderBy('createdAt', 'desc').limit(100).get();
+    const logs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json({ logs });
+  } catch (error) {
+    console.error('Log fetch error:', error);
+    res.status(500).json({ error: `ログの取得に失敗しました: ${error.message}` });
+  }
+});
+
+// ログ削除
+app.delete('/api/logs/:id', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    await db.collection('activity_logs').doc(req.params.id).delete();
+    res.json({ message: 'ログを削除しました' });
+  } catch (error) {
+    console.error('Log delete error:', error);
+    res.status(500).json({ error: `ログの削除に失敗しました: ${error.message}` });
+  }
+});
+
 // ルートパス
 app.get('/', (req, res) => {
   res.json({
     service: 'Pharma Marketing Backend API',
     status: 'ok',
     endpoints: [
-      'POST /api/set-api-key',
       'POST /api/generate-persona-response',
       'POST /api/generate-journey',
       'POST /api/legal-check',
+      'GET/POST/DELETE /api/insights',
+      'GET/POST/DELETE /api/journeys',
+      'GET/POST/DELETE /api/legal-results',
+      'GET/DELETE /api/logs',
       'GET /health'
     ]
   });
@@ -265,9 +468,10 @@ app.get('/', (req, res) => {
 
 // ヘルスチェック
 app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
+  res.json({
+    status: 'ok',
     apiKeySet: genAI !== null,
+    firestoreConnected: db !== null,
     timestamp: new Date().toISOString()
   });
 });

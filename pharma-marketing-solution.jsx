@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { MessageCircle, Database, Map, Shield, Save, Download, Edit3, Plus, Check, AlertCircle } from 'lucide-react';
+import { MessageCircle, Database, Map, Shield, Save, Download, Edit3, Plus, Check, AlertCircle, Archive, Trash2, Clock, RefreshCw } from 'lucide-react';
 
 const PharmaMarketingSolution = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -15,6 +15,13 @@ const PharmaMarketingSolution = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   
   const [isGenerating, setIsGenerating] = useState(false);
+
+  // Firestore永続化用の状態
+  const [firestoreInsights, setFirestoreInsights] = useState([]);
+  const [firestoreJourneys, setFirestoreJourneys] = useState([]);
+  const [firestoreLegalResults, setFirestoreLegalResults] = useState([]);
+  const [activityLogs, setActivityLogs] = useState([]);
+  const [firestoreAvailable, setFirestoreAvailable] = useState(true);
 
   const API_BASE_URL = '/api';
 
@@ -415,6 +422,156 @@ const PharmaMarketingSolution = () => {
   const regionalSales = currentData.regionalSales;
   const consumerInsights = currentData.consumerInsights;
 
+  // Firestore データ取得
+  const fetchFirestoreData = async () => {
+    try {
+      const [insightsRes, journeysRes, legalRes, logsRes] = await Promise.all([
+        fetch(`${API_BASE_URL}/insights`).catch(() => null),
+        fetch(`${API_BASE_URL}/journeys`).catch(() => null),
+        fetch(`${API_BASE_URL}/legal-results`).catch(() => null),
+        fetch(`${API_BASE_URL}/logs`).catch(() => null)
+      ]);
+
+      if (insightsRes && insightsRes.ok) {
+        const data = await insightsRes.json();
+        setFirestoreInsights(data.insights || []);
+      }
+      if (journeysRes && journeysRes.ok) {
+        const data = await journeysRes.json();
+        setFirestoreJourneys(data.actions || []);
+      }
+      if (legalRes && legalRes.ok) {
+        const data = await legalRes.json();
+        setFirestoreLegalResults(data.results || []);
+      }
+      if (logsRes && logsRes.ok) {
+        const data = await logsRes.json();
+        setActivityLogs(data.logs || []);
+      }
+    } catch (error) {
+      console.warn('Firestore data fetch failed:', error);
+      setFirestoreAvailable(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFirestoreData();
+  }, []);
+
+  // Firestore インサイト保存
+  const saveInsightToFirestore = async (message) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/insights`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          content: message.content,
+          disease: selectedDisease,
+          messageId: String(message.id)
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setFirestoreInsights(prev => [{ id: data.id, content: message.content, disease: selectedDisease, messageId: String(message.id), createdAt: new Date().toISOString() }, ...prev]);
+        fetchFirestoreData();
+      }
+    } catch (error) {
+      console.warn('Insight save to Firestore failed:', error);
+    }
+  };
+
+  // Firestore インサイト削除
+  const deleteInsightFromFirestore = async (firestoreId) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/insights/${firestoreId}`, { method: 'DELETE' });
+      if (res.ok) {
+        setFirestoreInsights(prev => prev.filter(i => i.id !== firestoreId));
+        fetchFirestoreData();
+      }
+    } catch (error) {
+      console.warn('Insight delete from Firestore failed:', error);
+    }
+  };
+
+  // Firestore 施策保存
+  const saveJourneyToFirestore = async (stageName, action) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/journeys`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          stage: stageName,
+          action: action,
+          disease: selectedDisease
+        })
+      });
+      if (res.ok) {
+        fetchFirestoreData();
+      }
+    } catch (error) {
+      console.warn('Journey save to Firestore failed:', error);
+    }
+  };
+
+  // Firestore 施策削除
+  const deleteJourneyFromFirestore = async (firestoreId) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/journeys/${firestoreId}`, { method: 'DELETE' });
+      if (res.ok) {
+        setFirestoreJourneys(prev => prev.filter(j => j.id !== firestoreId));
+        fetchFirestoreData();
+      }
+    } catch (error) {
+      console.warn('Journey delete from Firestore failed:', error);
+    }
+  };
+
+  // Firestore Legal Check結果保存
+  const saveLegalResultToFirestore = async (actionData, checks) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/legal-results`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: actionData.action,
+          stage: actionData.stage,
+          disease: actionData.disease,
+          checks: checks
+        })
+      });
+      if (res.ok) {
+        fetchFirestoreData();
+      }
+    } catch (error) {
+      console.warn('Legal result save to Firestore failed:', error);
+    }
+  };
+
+  // Firestore Legal Check結果削除
+  const deleteLegalResultFromFirestore = async (firestoreId) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/legal-results/${firestoreId}`, { method: 'DELETE' });
+      if (res.ok) {
+        setFirestoreLegalResults(prev => prev.filter(l => l.id !== firestoreId));
+        fetchFirestoreData();
+      }
+    } catch (error) {
+      console.warn('Legal result delete from Firestore failed:', error);
+    }
+  };
+
+  // ログ削除
+  const deleteLog = async (logId) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/logs/${logId}`, { method: 'DELETE' });
+      if (res.ok) {
+        setActivityLogs(prev => prev.filter(l => l.id !== logId));
+      }
+    } catch (error) {
+      console.warn('Log delete failed:', error);
+    }
+  };
+
   // AIペルソナチャット
   const handleSendMessage = async () => {
     if (!chatInput.trim()) return;
@@ -459,6 +616,7 @@ const PharmaMarketingSolution = () => {
     const message = chatMessages.find(m => m.id === messageId);
     if (message && !savedInsights.find(s => s.id === messageId)) {
       setSavedInsights(prev => [...prev, message]);
+      saveInsightToFirestore(message);
     }
   };
 
@@ -625,6 +783,7 @@ const PharmaMarketingSolution = () => {
       timestamp: new Date()
     };
     setSavedActions(prev => [...prev, actionData]);
+    saveJourneyToFirestore(stageName, action);
   };
 
   // Legal Check
@@ -649,6 +808,7 @@ const PharmaMarketingSolution = () => {
 
       if (response.ok) {
         setLegalChecks(prev => ({ ...prev, [actionId]: data.legalCheck.checks }));
+        saveLegalResultToFirestore(action, data.legalCheck.checks);
       } else {
         alert(`エラー: ${data.error}`);
         // フォールバック：デフォルトのチェック結果を使用
@@ -831,7 +991,8 @@ const PharmaMarketingSolution = () => {
             { id: 'dashboard', label: 'Dashboard', icon: Database },
             { id: 'chat', label: 'AI Persona', icon: MessageCircle },
             { id: 'journey', label: 'Patient Journey', icon: Map },
-            { id: 'legal', label: 'Legal Check', icon: Shield }
+            { id: 'legal', label: 'Legal Check', icon: Shield },
+            { id: 'saved', label: 'Saved Data', icon: Archive }
           ].map(tab => {
             const Icon = tab.icon;
             return (
@@ -1580,6 +1741,29 @@ const PharmaMarketingSolution = () => {
                       }}
                     >
                       {insight.content}
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '8px' }}>
+                        <button
+                          onClick={() => {
+                            setSavedInsights(prev => prev.filter((_, idx) => idx !== i));
+                            const fsInsight = firestoreInsights.find(fi => fi.messageId === String(insight.id));
+                            if (fsInsight) deleteInsightFromFirestore(fsInsight.id);
+                          }}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#DC2626',
+                            cursor: 'pointer',
+                            padding: '2px 6px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            fontSize: '12px'
+                          }}
+                        >
+                          <Trash2 size={12} />
+                          削除
+                        </button>
+                      </div>
                     </div>
                   ))
                 )}
@@ -2265,6 +2449,445 @@ const PharmaMarketingSolution = () => {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {/* Saved Data */}
+        {activeTab === 'saved' && (
+          <div style={{ animation: 'fadeIn 0.5s ease' }}>
+            <div style={{
+              background: '#FFFFFF',
+              borderRadius: '12px',
+              padding: '32px',
+              marginBottom: '24px',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+              border: '1px solid #E5E7EB',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <div>
+                <h2 style={{
+                  margin: '0 0 8px 0',
+                  fontSize: '24px',
+                  fontWeight: '700',
+                  color: '#1A1A1A'
+                }}>Saved Data</h2>
+                <p style={{
+                  margin: 0,
+                  fontSize: '14px',
+                  color: '#6B7280'
+                }}>Firestoreに保存されたインサイト、施策、Legal Check結果、アクティビティログを管理します</p>
+              </div>
+              <button
+                onClick={fetchFirestoreData}
+                style={{
+                  background: '#F8F9FA',
+                  color: '#374151',
+                  border: '1px solid #D1D5DB',
+                  borderRadius: '8px',
+                  padding: '10px 20px',
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+              >
+                <RefreshCw size={14} />
+                更新
+              </button>
+            </div>
+
+            {!firestoreAvailable && (
+              <div style={{
+                background: '#FFFBEB',
+                border: '1px solid #FDE68A',
+                borderRadius: '12px',
+                padding: '20px 32px',
+                marginBottom: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px'
+              }}>
+                <AlertCircle size={20} color="#F59E0B" />
+                <span style={{ fontSize: '14px', color: '#92400E' }}>
+                  Firestoreに接続できません。環境変数を確認してください。ローカルの状態のみ使用中です。
+                </span>
+              </div>
+            )}
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gap: '20px',
+              marginBottom: '24px'
+            }}>
+              {/* 保存済みインサイト */}
+              <div style={{
+                background: '#FFFFFF',
+                borderRadius: '12px',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                border: '1px solid #E5E7EB',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  padding: '20px 24px',
+                  borderBottom: '1px solid #E5E7EB',
+                  background: '#F8F9FA',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}>
+                  <MessageCircle size={18} color="#D52B1E" />
+                  <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '700', color: '#1A1A1A' }}>
+                    保存済みインサイト ({firestoreInsights.length})
+                  </h3>
+                </div>
+                <div style={{ padding: '16px 24px', maxHeight: '400px', overflowY: 'auto' }}>
+                  {firestoreInsights.length === 0 ? (
+                    <div style={{ textAlign: 'center', color: '#9CA3AF', fontSize: '14px', padding: '32px 0' }}>
+                      保存されたインサイトはありません
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      {firestoreInsights.map((insight) => (
+                        <div key={insight.id} style={{
+                          background: '#F8F9FA',
+                          padding: '14px 16px',
+                          borderRadius: '8px',
+                          borderLeft: '3px solid #D52B1E',
+                          position: 'relative'
+                        }}>
+                          <div style={{
+                            display: 'inline-block',
+                            background: '#FEE2E2',
+                            color: '#DC2626',
+                            padding: '2px 8px',
+                            borderRadius: '4px',
+                            fontSize: '11px',
+                            fontWeight: '600',
+                            marginBottom: '8px'
+                          }}>{insight.disease}</div>
+                          <div style={{ fontSize: '13px', color: '#1A1A1A', lineHeight: '1.6', marginBottom: '8px' }}>
+                            {insight.content}
+                          </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span style={{ fontSize: '11px', color: '#9CA3AF' }}>
+                              {insight.createdAt ? new Date(insight.createdAt).toLocaleString('ja-JP') : ''}
+                            </span>
+                            <button
+                              onClick={() => deleteInsightFromFirestore(insight.id)}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#DC2626',
+                                cursor: 'pointer',
+                                padding: '4px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                fontSize: '12px'
+                              }}
+                            >
+                              <Trash2 size={14} />
+                              削除
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* 保存済み施策 */}
+              <div style={{
+                background: '#FFFFFF',
+                borderRadius: '12px',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                border: '1px solid #E5E7EB',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  padding: '20px 24px',
+                  borderBottom: '1px solid #E5E7EB',
+                  background: '#F8F9FA',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}>
+                  <Map size={18} color="#D52B1E" />
+                  <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '700', color: '#1A1A1A' }}>
+                    保存済み施策 ({firestoreJourneys.length})
+                  </h3>
+                </div>
+                <div style={{ padding: '16px 24px', maxHeight: '400px', overflowY: 'auto' }}>
+                  {firestoreJourneys.length === 0 ? (
+                    <div style={{ textAlign: 'center', color: '#9CA3AF', fontSize: '14px', padding: '32px 0' }}>
+                      保存された施策はありません
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      {firestoreJourneys.map((item) => (
+                        <div key={item.id} style={{
+                          background: '#F8F9FA',
+                          padding: '14px 16px',
+                          borderRadius: '8px',
+                          borderLeft: '3px solid #374151'
+                        }}>
+                          <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
+                            <span style={{
+                              background: '#FEE2E2',
+                              color: '#DC2626',
+                              padding: '2px 8px',
+                              borderRadius: '4px',
+                              fontSize: '11px',
+                              fontWeight: '600'
+                            }}>{item.disease}</span>
+                            <span style={{
+                              background: '#E5E7EB',
+                              color: '#374151',
+                              padding: '2px 8px',
+                              borderRadius: '4px',
+                              fontSize: '11px',
+                              fontWeight: '600'
+                            }}>{item.stage}</span>
+                          </div>
+                          <div style={{ fontSize: '13px', color: '#1A1A1A', lineHeight: '1.6', marginBottom: '8px' }}>
+                            {item.action}
+                          </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span style={{ fontSize: '11px', color: '#9CA3AF' }}>
+                              {item.createdAt ? new Date(item.createdAt).toLocaleString('ja-JP') : ''}
+                            </span>
+                            <button
+                              onClick={() => deleteJourneyFromFirestore(item.id)}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#DC2626',
+                                cursor: 'pointer',
+                                padding: '4px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                fontSize: '12px'
+                              }}
+                            >
+                              <Trash2 size={14} />
+                              削除
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Legal Check結果 */}
+              <div style={{
+                background: '#FFFFFF',
+                borderRadius: '12px',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                border: '1px solid #E5E7EB',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  padding: '20px 24px',
+                  borderBottom: '1px solid #E5E7EB',
+                  background: '#F8F9FA',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}>
+                  <Shield size={18} color="#D52B1E" />
+                  <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '700', color: '#1A1A1A' }}>
+                    Legal Check結果 ({firestoreLegalResults.length})
+                  </h3>
+                </div>
+                <div style={{ padding: '16px 24px', maxHeight: '400px', overflowY: 'auto' }}>
+                  {firestoreLegalResults.length === 0 ? (
+                    <div style={{ textAlign: 'center', color: '#9CA3AF', fontSize: '14px', padding: '32px 0' }}>
+                      保存されたLegal Check結果はありません
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      {firestoreLegalResults.map((result) => (
+                        <div key={result.id} style={{
+                          background: '#F8F9FA',
+                          padding: '14px 16px',
+                          borderRadius: '8px',
+                          borderLeft: '3px solid #F59E0B'
+                        }}>
+                          <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
+                            <span style={{
+                              background: '#FEE2E2',
+                              color: '#DC2626',
+                              padding: '2px 8px',
+                              borderRadius: '4px',
+                              fontSize: '11px',
+                              fontWeight: '600'
+                            }}>{result.disease}</span>
+                            <span style={{
+                              background: '#E5E7EB',
+                              color: '#374151',
+                              padding: '2px 8px',
+                              borderRadius: '4px',
+                              fontSize: '11px',
+                              fontWeight: '600'
+                            }}>{result.stage}</span>
+                          </div>
+                          <div style={{ fontSize: '13px', color: '#1A1A1A', fontWeight: '600', marginBottom: '6px' }}>
+                            {result.action}
+                          </div>
+                          {result.checks && (
+                            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '8px' }}>
+                              {result.checks.map((check, ci) => (
+                                <span key={ci} style={{
+                                  fontSize: '11px',
+                                  padding: '2px 8px',
+                                  borderRadius: '4px',
+                                  background: check.status === 'warning' ? '#FEF3C7' :
+                                             check.status === 'caution' ? '#FFF7ED' : '#DCFCE7',
+                                  color: check.status === 'warning' ? '#92400E' :
+                                         check.status === 'caution' ? '#9A3412' : '#166534',
+                                  fontWeight: '600'
+                                }}>
+                                  {check.status === 'warning' ? '!' : check.status === 'caution' ? '?' : '+'} {check.issue}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span style={{ fontSize: '11px', color: '#9CA3AF' }}>
+                              {result.createdAt ? new Date(result.createdAt).toLocaleString('ja-JP') : ''}
+                            </span>
+                            <button
+                              onClick={() => deleteLegalResultFromFirestore(result.id)}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#DC2626',
+                                cursor: 'pointer',
+                                padding: '4px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                fontSize: '12px'
+                              }}
+                            >
+                              <Trash2 size={14} />
+                              削除
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* アクティビティログ */}
+            <div style={{
+              background: '#FFFFFF',
+              borderRadius: '12px',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+              border: '1px solid #E5E7EB',
+              overflow: 'hidden'
+            }}>
+              <div style={{
+                padding: '20px 24px',
+                borderBottom: '1px solid #E5E7EB',
+                background: '#F8F9FA',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px'
+              }}>
+                <Clock size={18} color="#D52B1E" />
+                <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '700', color: '#1A1A1A' }}>
+                  アクティビティログ ({activityLogs.length})
+                </h3>
+              </div>
+              <div style={{ padding: '16px 24px', maxHeight: '500px', overflowY: 'auto' }}>
+                {activityLogs.length === 0 ? (
+                  <div style={{ textAlign: 'center', color: '#9CA3AF', fontSize: '14px', padding: '32px 0' }}>
+                    アクティビティログはありません
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {activityLogs.map((log) => (
+                      <div key={log.id} style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '12px 16px',
+                        background: '#F8F9FA',
+                        borderRadius: '8px'
+                      }}>
+                        <div style={{
+                          width: '8px',
+                          height: '8px',
+                          borderRadius: '50%',
+                          background: log.type === 'insight' ? '#D52B1E' :
+                                     log.type === 'journey' ? '#374151' :
+                                     log.type === 'legal' ? '#F59E0B' : '#9CA3AF',
+                          flexShrink: 0
+                        }} />
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '2px' }}>
+                            <span style={{
+                              fontSize: '11px',
+                              fontWeight: '700',
+                              textTransform: 'uppercase',
+                              color: log.type === 'insight' ? '#D52B1E' :
+                                     log.type === 'journey' ? '#374151' :
+                                     log.type === 'legal' ? '#F59E0B' : '#6B7280'
+                            }}>
+                              {log.type === 'insight' ? 'インサイト' :
+                               log.type === 'journey' ? '施策' :
+                               log.type === 'legal' ? 'Legal Check' : log.type}
+                            </span>
+                            <span style={{
+                              fontSize: '11px',
+                              color: log.action === 'save' ? '#16A34A' : '#DC2626',
+                              fontWeight: '600'
+                            }}>
+                              {log.action === 'save' ? '保存' : '削除'}
+                            </span>
+                          </div>
+                          <div style={{ fontSize: '12px', color: '#6B7280', lineHeight: '1.4' }}>
+                            {log.detail}
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ fontSize: '11px', color: '#9CA3AF', whiteSpace: 'nowrap' }}>
+                            {log.createdAt ? new Date(log.createdAt).toLocaleString('ja-JP') : ''}
+                          </span>
+                          <button
+                            onClick={() => deleteLog(log.id)}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: '#9CA3AF',
+                              cursor: 'pointer',
+                              padding: '4px',
+                              display: 'flex',
+                              alignItems: 'center'
+                            }}
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </main>
