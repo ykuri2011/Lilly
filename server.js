@@ -421,6 +421,114 @@ app.delete('/api/legal-results/:id', async (req, res) => {
   }
 });
 
+// --- ダッシュボードメモ ---
+
+// メモ保存
+app.post('/api/memos', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const { content, author, disease, category } = req.body;
+    if (!content || !author) {
+      return res.status(400).json({ error: 'content と author は必須です' });
+    }
+    const docRef = await db.collection('dashboard_memos').add({
+      content,
+      author,
+      disease: disease || '',
+      category: category || '',
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: new Date().toISOString()
+    });
+    await logActivity('memo', 'save', `${author}: ${content.substring(0, 50)}...`);
+    res.json({ id: docRef.id, message: 'メモを保存しました' });
+  } catch (error) {
+    console.error('Memo save error:', error);
+    res.status(500).json({ error: `メモの保存に失敗しました: ${error.message}` });
+  }
+});
+
+// メモ一覧取得
+app.get('/api/memos', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const snapshot = await db.collection('dashboard_memos').orderBy('createdAt', 'desc').get();
+    const memos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json({ memos });
+  } catch (error) {
+    console.error('Memo fetch error:', error);
+    res.status(500).json({ error: `メモの取得に失敗しました: ${error.message}` });
+  }
+});
+
+// メモ削除
+app.delete('/api/memos/:id', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Firestore が初期化されていません' });
+  try {
+    const doc = await db.collection('dashboard_memos').doc(req.params.id).get();
+    const data = doc.exists ? doc.data() : {};
+    await db.collection('dashboard_memos').doc(req.params.id).delete();
+    await logActivity('memo', 'delete', `${data.author || ''}: ${(data.content || '').substring(0, 50)}`);
+    res.json({ message: 'メモを削除しました' });
+  } catch (error) {
+    console.error('Memo delete error:', error);
+    res.status(500).json({ error: `メモの削除に失敗しました: ${error.message}` });
+  }
+});
+
+// メモからインサイト会話生成エンドポイント
+app.post('/api/generate-memo-insight', async (req, res) => {
+  if (!genAI) {
+    return res.status(503).json({ error: 'GEMINI_API_KEY 環境変数が設定されていません。サーバー管理者に連絡してください。' });
+  }
+
+  const { memos, userMessage, conversationHistory, disease } = req.body;
+
+  try {
+    const memosText = memos.map((m, i) => `メモ${i + 1}（${m.author}）: ${m.content}`).join('\n');
+
+    const systemPrompt = `あなたは医薬品マーケティングの戦略コンサルタントです。社内チームメンバーがダッシュボードを見て残したメモ（気づき）を分析し、その背景にあるインサイトを深掘りしてください。
+
+【選択されたメモ】
+${memosText}
+
+【対象疾患】
+${disease || '指定なし'}
+
+【あなたの役割】
+1. 複数のメモに共通するパターンや傾向を見出す
+2. メモの背景にある市場動向や患者ニーズを分析する
+3. メモから導き出される戦略的示唆を提供する
+4. チームが見落としている視点を指摘する
+5. 具体的な次のアクションを提案する
+
+【回答のガイドライン】
+- データに基づいた客観的な分析を心がける
+- 製薬業界特有の規制や商習慣を考慮する
+- 実行可能な具体的提案を含める
+- 300文字以内で簡潔に回答する
+
+${conversationHistory && conversationHistory.length > 0 ? `【会話履歴】\n${conversationHistory.map(msg => `${msg.role === 'user' ? 'ユーザー' : 'AI'}: ${msg.content}`).join('\n')}` : ''}
+
+ユーザー: ${userMessage}
+
+上記について、戦略コンサルタントとして回答してください：`;
+
+    const result = await genAI.models.generateContent({
+      model: GEMINI_MODEL,
+      contents: systemPrompt,
+    });
+    const text = result.text;
+
+    res.json({
+      response: text,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Memo Insight Generation Error:', error);
+    res.status(500).json({ error: `インサイト生成に失敗しました: ${error.message}`, details: error.message });
+  }
+});
+
 // --- アクティビティログ ---
 
 // ログ一覧取得
@@ -460,6 +568,8 @@ app.get('/', (req, res) => {
       'GET/POST/DELETE /api/insights',
       'GET/POST/DELETE /api/journeys',
       'GET/POST/DELETE /api/legal-results',
+      'GET/POST/DELETE /api/memos',
+      'POST /api/generate-memo-insight',
       'GET/DELETE /api/logs',
       'GET /health'
     ]
